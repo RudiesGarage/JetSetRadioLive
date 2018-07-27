@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <integer-array name="wallpapers">
+        <item>@drawable/shufflewallpaper</item>
+        <item>@drawable/classicwallpaper</item>
+        <item>@drawable/fututrewallpaper</item>
+        <item>@drawable/ggswallpaper</item>
+        <item>@drawable/poisonjamwallpaper</item>
+        <item>@drawable/noisetankswallpaper</item>
+        <item>@drawable/loveshockerswallpaper</item>
+        <item>@drawable/rapid99wallpaper</item>
+        <item>@drawable/immortalswallpaper</item>
+        <item>@drawable/doomriderswallpaper</item>
+        <item>@drawable/goldenrhinoswallpaper</item>
+        <item>@drawable/summerwallpaper</item>
+
+    </integer-array>
+
+</resources>

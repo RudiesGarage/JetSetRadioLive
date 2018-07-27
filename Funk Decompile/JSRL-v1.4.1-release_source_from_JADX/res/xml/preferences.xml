@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory app:title="Radio Settings">
+        <CheckBoxPreference app:title="BGM Sound" app:key="bgmsound" app:summary="Enables the graffiti sound when changing song" app:defaultValue="true" />
+        <CheckBoxPreference app:title="Song Requests" app:key="songrequests" app:summary="Enables the playback of requests by DJ Professor K" app:defaultValue="true" />
+        <CheckBoxPreference app:title="Random Backgrounds" app:key="randombg" app:summary="Changes the background when changing song" app:defaultValue="true" app:disableDependentsState="true" />
+        <com.thebluealliance.spectrum.SpectrumPreference app:title="Radio Background Color" app:key="radiobg" app:summary="Sets the background color for the Radio tab" app:dependency="randombg" app:defaultValue="@color/md_orange_500" app:spectrum_colors="@array/rainbow" />
+    </PreferenceCategory>
+    <PreferenceCategory app:title="Chat Settings">
+        <EditTextPreference app:title="Username" app:key="username" app:summary="Your name for the JSRL chat" app:defaultValue="false" />
+        <ListPreference app:entries="@array/textsizes" app:title="Chat Size" app:key="chatsize" app:summary="The text size for the JSRL chat" app:defaultValue="17" app:entryValues="@array/textsizes" />
+        <com.thebluealliance.spectrum.SpectrumPreference app:title="Chat Background Color" app:key="chatbg" app:summary="Sets the background color for the Chat tab" app:defaultValue="@color/md_orange_500" app:spectrum_colors="@array/rainbow" />
+    </PreferenceCategory>
+    <PreferenceCategory app:title="Others">
+        <Preference app:title="Jet Set Radio Live Website">
+            <intent app:action="android.intent.action.VIEW" app:data="https://jetsetradio.live" />
+        </Preference>
+        <Preference app:title="Support the website">
+            <intent app:action="android.intent.action.VIEW" app:data="http://collecteur.co/jsrl" />
+        </Preference>
+        <Preference app:persistent="false" app:title="Stations Description" app:selectable="true" app:key="pref_static" app:summary="GGs - Funky Energetic Beats 
+Poison Jam - Grunge Rock and Metal 
+Noise Tanks - Digital and Electronic 
+Love Shockers - Female Punk Vocals 
+Rapid 99 - Upbeat Female Vocals 
+Immortals - Ethnic Balkan 
+Doom Riders - Classic Rock/Biker Music
+Golden Rhinos - Classical Hip Hop" />
+        <Preference app:title="Version Number" app:key="version" app:summary="1.0" />
+        <Preference app:title="Made by Funk" app:summary="With love for the JSRL Community" />
+    </PreferenceCategory>
+</PreferenceScreen>
