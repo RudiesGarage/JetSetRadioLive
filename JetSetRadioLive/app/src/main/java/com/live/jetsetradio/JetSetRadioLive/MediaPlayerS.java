@@ -48,18 +48,20 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MediaPlayerS extends Service {
-    private final String Audio_Path_Base = "https://jetsetradio.live/audioplayer/stations/";
-    private final String Audio_Array_Path = "/~list.js";
+
 
 
    // private Timer f3349F;
    // private Timer f3350G;
-    private Song cachedSong;
+
     TelephonyManager f3352a;
     PhoneStateListener f3353b;
-    private MediaSessionCompat MediaSesh;
-    private MediaControllerCompat f3355d;
-    private MediaPlayer mp;
+
+    private MediaSessionCompat MediaSesh; //Media Session
+    private MediaControllerCompat MediaController; //Media Controller
+    private MediaPlayer mp; //Media Player
+
+    //Song Arrays
     private ArrayList<Song> future_array;
     private ArrayList<Song> ggs_array;
     private ArrayList<Song> classic_array;
@@ -72,13 +74,21 @@ public class MediaPlayerS extends Service {
     private ArrayList<Song> doom_array;
     private ArrayList<Song> summer_array;
     private ArrayList<Song> shuffle_array;
+    //Songs
     private Song currentSong;
+    private Song cachedSong;
+
     private int station_count;
+
     private boolean f3368q = false;
     private boolean f3369r = false;
+
     private LocalBroadcastManager f3370s;
     private IntentFilter f3371t = new IntentFilter("android.media.AUDIO_BECOMING_NOISY");
-    private C1289a f3372u;
+
+    private Custom_BCR f3372u;
+
+    //URLS
     private URL ggs_URL;
     private URL classic_URL;
     private URL future_URL;
@@ -91,7 +101,7 @@ public class MediaPlayerS extends Service {
     private URL doomriders_URL;
     private URL summer_URL;
 
-
+    //Check PhoneState handler
     class C12853 extends PhoneStateListener {
         final /* synthetic */ MediaPlayerS f3339a;
 
@@ -99,9 +109,10 @@ public class MediaPlayerS extends Service {
             this.f3339a = mediaPlayerService;
         }
 
+        //check if calling or being called...
         public void onCallStateChanged(int i, String str) {
             if (i == 1 || i == 2) {
-                // this.f3339a.f3355d.m1670a().mo277b();
+                this.f3339a.MediaController.getTransportControls().pause(); //pause music
             }
             super.onCallStateChanged(i, str);
         }
@@ -133,7 +144,7 @@ public class MediaPlayerS extends Service {
         }
     }
 
-  class C12886  {
+    class C12886  {
         final  MediaPlayerS f3342b;
 
         C12886(MediaPlayerS mediaPlayerService) {
@@ -195,22 +206,26 @@ public class MediaPlayerS extends Service {
         }
     }
 
-    private class C1289a extends BroadcastReceiver {
+    //Custom BroadCast Receiver (manage output)
+    private class Custom_BCR extends BroadcastReceiver {
         final /* synthetic */ MediaPlayerS f3343a;
 
-        private C1289a(MediaPlayerS mediaPlayerService) {
+        private Custom_BCR(MediaPlayerS mediaPlayerService) {
             this.f3343a = mediaPlayerService;
         }
 
+        //if new headphones detach..
         public void onReceive(Context context, Intent intent) {
-            if ("android.media.AUDIO_BECOMING_NOISY".equals(intent.getAction())) {
-                this.f3343a.f3355d.getMediaController().notify();
+            if (mp != null && mp.isPlaying()) {
+                mp.pause(); //pause media player
             }
         }
     }
 
-    @SuppressLint("WrongConstant")
+//on creat of the media player
     public void onCreate() {
+         final String Audio_Path_Base = "https://jetsetradio.live/audioplayer/stations/"; //base url for the music
+         final String Audio_Array_Path = "/~list.js"; //array extention
         try {
             this.classic_URL = new URL(Audio_Path_Base +"classic" + Audio_Array_Path);
             this.future_URL =new URL(Audio_Path_Base +"future" + Audio_Array_Path);
@@ -223,67 +238,64 @@ public class MediaPlayerS extends Service {
             this.goldenrhinos_URL = new URL(Audio_Path_Base +"goldenrhinos" + Audio_Array_Path);
             this.doomriders_URL = new URL(Audio_Path_Base +"doomriders" + Audio_Array_Path);
             this.summer_URL = new URL(Audio_Path_Base + "summer" + Audio_Array_Path);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
-        this.f3370s = LocalBroadcastManager.getInstance(getApplicationContext());
-        this.mp = new MediaPlayer();
-
-        try {
-            this.LoadSongLists();
+            this.LoadSongLists();//load songs
         } catch (URISyntaxException | MalformedURLException e) {
             e.printStackTrace();
         }
 
+        this.f3370s = LocalBroadcastManager.getInstance(getApplicationContext());
+        this.mp = new MediaPlayer(); //make a media player
+
+
         this.mp.setAudioStreamType(3);
         this.mp.setWakeMode(getApplicationContext(), 1);
-        this.f3372u = new C1289a(this);
+        this.f3372u = new Custom_BCR(this);
         registerReceiver(this.f3372u, this.f3371t);
         this.f3353b = new C12853(this);
-        this.f3352a = (TelephonyManager) getSystemService("phone");
-
+        this.f3352a = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        this.MediaSesh = new MediaSessionCompat(this.getBaseContext(),"MEDIA SESH");
+        this.MediaController = new MediaControllerCompat(this.getBaseContext(),this.MediaSesh);
     }
 
+    //Intent ACTION HANDLER
     private void Action_Handler(Intent intent) throws IOException, URISyntaxException {
         if (intent != null && intent.getAction() != null) {
+            //CHECK IF STATION SWITCH
             if (intent.hasExtra("Station")) {
                 this.station_count = intent.getIntExtra("Station", 0);
             }
-            System.out.println( "FROM INTENT I GOT: "+this.station_count);
-              // Bundle sa =  intent.getExtras();
-              // this.station_count =sa.getInt("Station");
-            //
+
+            //CHECKING MEDIA STATE
             String action = intent.getAction();
+            //ON PLAY
             if (action.equalsIgnoreCase("action_play")) {
-                //System.out.println("HEY THERE BOYO!");
-
-
-            } else if (action.equalsIgnoreCase("action_pause")) {
-                // this.f3355d.m1670a().mo277b();
-                mp.pause();
-            } else if (action.equalsIgnoreCase("action_next")) {
-                 //String String = "https://jetsetradio.live/audioplayer/stations/classic/B.B.%20Rights%20-%20Funky%20Radio.mp3";
-                //URL String = getNextSong();
-               // mp.prepare();
-               // System.out.println("HEY THERE PAL!");
-                ///if(mp.isPlaying()){
-                System.out.println("Getting next Song...");
-
+                //nothing is here yet ;)
+            }
+            //ON PAUSE
+            else if (action.equalsIgnoreCase("action_pause")) {
+                this.MediaController.getTransportControls().pause();
+            }
+            //ON NEXT
+            else if (action.equalsIgnoreCase("action_next")) {
                 this.getNextSong();
                 //mp.start();
                 //playSong();
-                //  this.f3355d.m1670a().mo279d();
-            } else if (action.equalsIgnoreCase("action_stop")) {
+                 this.MediaController.getTransportControls().skipToNext();
+            }
+            //ON STOP
+            else if (action.equalsIgnoreCase("action_stop")) {
                mp.stop();
-                mp.release();
-                // this.f3355d.m1670a().mo278c();
+               mp.release();
+                // this.MediaController.m1670a().mo278c();
             }
         }
     }
+
+    //Kill the media player
     public void KillMediaPlayer(){
         if(mp!=null) {
             try {
+                mp.stop();
                 mp.release();
             }
             catch(Exception e) {
@@ -292,11 +304,12 @@ public class MediaPlayerS extends Service {
         }
     }
 
+    //Play a song
     public void playSong(String url) throws IOException {
-        KillMediaPlayer();
-        this.mp = new MediaPlayer();
-        this.mp.setDataSource(url);
-        System.out.println(url);
+        KillMediaPlayer(); //kill previous media player
+        this.mp = new MediaPlayer(); //make a new media player
+        this.mp.setDataSource(url); //set new data source
+        //when ready start
        this.mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
 
             @Override
@@ -304,26 +317,19 @@ public class MediaPlayerS extends Service {
                 player.start();
             }
         });
+       //when complete stop and get the next song
         this.mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
                mp.stop();
                 try {
                     getNextSong();
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (URISyntaxException e) {
+                } catch (URISyntaxException |MalformedURLException e) {
                     e.printStackTrace();
                 }
-                //getSongList()
-                //playSong("");
-                //this. .getNextSong();
             }
         });
-      //  System.out.println("FAILURE!");
-        this.mp.prepareAsync();
-      //  mp.start();
-
+        this.mp.prepareAsync(); //prepare the song async
     }
 
     //  private NotificationCompat m5852a(int i, String str, String str2) {
@@ -345,6 +351,7 @@ public class MediaPlayerS extends Service {
         ((NotificationManager) getSystemService("notification")).notify(1, a);
     }
 */
+ //on start
     public int onStartCommand(Intent intent, int i, int i2) {
         //Exception e;
         if (intent != null) {
@@ -369,12 +376,13 @@ public class MediaPlayerS extends Service {
 
     private void m5862b() {
         this.MediaSesh = new MediaSessionCompat(getApplicationContext(), "Jet Set Radio Live!", new ComponentName(getPackageName(), MediaPlayerS.class.getName()), PendingIntent.getBroadcast(this, 99, new Intent("action_play"), 0));
-       // this.f3355d = new C0426d(getApplicationContext(), this.MediaSesh.m1581b());
-     //   this.MediaSesh.m1576a(3);
-       // this.MediaSesh.m1580a(true);
-        //this.MediaSesh.m1577a(new C12886(this));
+        this.MediaController = new MediaControllerCompat(getApplicationContext(), this.MediaSesh);
+        this.MediaSesh.setPlaybackToLocal(3);
+        this.MediaSesh.setActive(true);
+      //  this.MediaSesh. m1577a(new C12886(this));
     }
 
+    //get the song lists
     private ArrayList<Song> getSongList(URL url) throws URISyntaxException, MalformedURLException {
         String Station;
         Exception e;
@@ -385,6 +393,8 @@ public class MediaPlayerS extends Service {
         ArrayList<Song> arrayList = new ArrayList();
         String SongName = "";
 
+
+        //get current URL from current station
         if (url.equals(this.poisonjam_URL)) {
             Station = "poisonjam";
         } else if (url.equals(this.loveshockers_URL)) {
@@ -412,10 +422,8 @@ public class MediaPlayerS extends Service {
             Station = "ERROR";
         }
         try {
-            SongName = c1297b.execute(url).get();
-           // System.out.println("YOU GOOD UP!");
+            SongName = c1297b.execute(url).get(); //get url async-ly
         } catch (InterruptedException e2) {
-           // System.out.println("YOU FUCKED UP!");
             e = e2;
             e.printStackTrace();
             SongName = null;
@@ -430,10 +438,8 @@ public class MediaPlayerS extends Service {
                 }
                 try {
                     arrayList.add(new Song(split[i], new URI("http", "//jetsetradio.live/audioplayer/stations/" + Station + "/" + split[i] + ".mp3", null).toURL()));
-                } catch (MalformedURLException e3) {
-                    Exception e4 = e3;
-                } catch (URISyntaxException e5) {
-                 //   e4 = e5;
+                } catch (URISyntaxException |MalformedURLException e3) {
+                   e3.printStackTrace();
                 }
             }
             return arrayList;
@@ -455,10 +461,11 @@ public class MediaPlayerS extends Service {
             }
             return arrayList;
         }
+
 if(SongName != null) {
 
 
-    //System.out.println("Hewwo?");
+
     split = SongName.split(";");
     for (i = 0; i < split.length; i++) {
         split2 = split[i].split("\"");
@@ -589,30 +596,27 @@ if(SongName != null) {
                     default:
                         break;
                 }
-                System.out.println("FUKING CHRIST!3");
+                //System.out.println("FUKING CHRIST!3");
                 this.cachedSong = this.currentSong;
-                System.out.println(this.currentSong.toString());
+                //System.out.println(this.currentSong.toString());
                 //this.cachedSong = null;
                 //mp.reset();
             }
 
             try {
 
-             //   System.out.println("FUKING CHRIST?");
-                System.out.println("FUKING CHRIST!" + this.cachedSong.m5907c().toString() );
 
-                //System.out.println("Just to be sure...");
                 playSong(this.cachedSong.m5907c().toString());
                 this.currentSong = null;
 
             } catch (IOException e) {
 
-                    System.out.println("FUKING CHRIST IT FAILED AT 557!");
+
 
             }
-//            this.mp.prepareAsync();
+
             this.f3369r = true;
-        //}
+
     }
 
     private void m5858a(String str) {
@@ -639,7 +643,7 @@ if(SongName != null) {
                 this.cachedSong = Song;
                 this.cachedSong.m5908d();
                 if (!this.mp.isPlaying()) {
-                    // this.f3355d.m1670a().mo279d();
+                    // this.MediaController.m1670a().mo279d();
                 }
             }
         } catch (URISyntaxException e3) {
@@ -651,7 +655,7 @@ if(SongName != null) {
                 this.cachedSong = Song;
                 this.cachedSong.m5908d();
                 if (!this.mp.isPlaying()) {
-                    //   this.f3355d.m1670a().mo279d();
+                    //   this.MediaController.m1670a().mo279d();
                 }
             }
         }
@@ -660,11 +664,12 @@ if(SongName != null) {
             this.cachedSong = Song;
             this.cachedSong.m5908d();
             if (!this.mp.isPlaying()) {
-                this.f3355d.getPlaybackState().notify();//  m1670a().mo279d();
+                this.MediaController.getPlaybackState().notify();//  m1670a().mo279d();
             }
         }
     }
 
+    //DJPK requests
     private void m5865c() {
      /*   CharSequence charSequence;
         Exception e;
@@ -776,8 +781,7 @@ if(SongName != null) {
         unregisterReceiver(this.f3372u);
         this.f3352a.listen(this.f3353b, 0);
         ((NotificationManager) getApplicationContext().getSystemService("notification")).cancelAll();
-        //this.MediaSesh.m1575a();
-       // this.f3349F.cancel();
+        this.MediaSesh.release();
         this.mp.release();
         onTaskRemoved(new Intent());
     }
