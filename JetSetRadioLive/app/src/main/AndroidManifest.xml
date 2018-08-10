@@ -53,6 +53,10 @@
             android:name=".MediaPlayerS"
             android:enabled="true"
             android:exported="true" />
+        <service
+            android:name=".NotificationService"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>

@@ -82,7 +82,7 @@ public class MediaPlayerS extends Service {
 
     private boolean f3368q = false;
     private boolean f3369r = false;
-
+    private boolean isPlaying = false;
     private LocalBroadcastManager f3370s;
     private IntentFilter f3371t = new IntentFilter("android.media.AUDIO_BECOMING_NOISY");
 

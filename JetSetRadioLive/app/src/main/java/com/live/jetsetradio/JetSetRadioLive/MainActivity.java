@@ -23,6 +23,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewManager;
 import android.view.inputmethod.InputMethodManager;
 
@@ -124,14 +125,18 @@ public class MainActivity extends FragmentActivity {
         Intent intent = new Intent(getBaseContext(),MediaPlayerS.class); //make Media player intent
         intent.setAction("action_preload"); //preload  intent
         startService(intent); //start intent
+        start_notifications();
     }
+
 
     /** Called when the activity is about to become visible. */
     @Override
     protected void onStart() {
+
         Log.e("DEBUG", "MainActivity ONSTART");
        // SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()); //TBD
         super.onStart(); //start app
+
          m5846f();
     }
 
@@ -171,4 +176,9 @@ public class MainActivity extends FragmentActivity {
         moveTaskToBack(true);
     }
 
+    public void start_notifications() {
+        Intent serviceIntent = new Intent(MainActivity.this, NotificationService.class);
+        serviceIntent.setAction(Constants.ACTION.STARTFOREGROUND_ACTION);
+        startService(serviceIntent);
+    }
 }
