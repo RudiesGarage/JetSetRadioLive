@@ -109,7 +109,7 @@ public class RadioFragment extends Fragment {
 
     //On start of radio fragment...
     public void onStart() {
-        intent = new Intent(getActivity().getBaseContext(), MediaPlayerS.class); //start on the intent
+
         super.onStart(); //start
        // SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
        // this.bgmsound = defaultSharedPreferences.getBoolean("bgmsound", true);
@@ -374,7 +374,7 @@ public class RadioFragment extends Fragment {
          viewGroup2.findViewById(R.id.StationLogo).setOnClickListener(new C13055(this));
        //viewGroup2.findViewById(R.id.settingsbutton).setOnClickListener(new C13066(this)); (SETTING TBD)
         viewGroup2.findViewById(R.id.songtitle).setSelected(true);
-
+        intent = new Intent(getActivity().getBaseContext(), MediaPlayerS.class); //start on the intent
         return viewGroup2;
     }
 

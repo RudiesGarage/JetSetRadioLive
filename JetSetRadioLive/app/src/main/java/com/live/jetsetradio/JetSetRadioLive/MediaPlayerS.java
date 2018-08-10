@@ -238,8 +238,12 @@ public class MediaPlayerS extends Service {
             this.goldenrhinos_URL = new URL(Audio_Path_Base +"goldenrhinos" + Audio_Array_Path);
             this.doomriders_URL = new URL(Audio_Path_Base +"doomriders" + Audio_Array_Path);
             this.summer_URL = new URL(Audio_Path_Base + "summer" + Audio_Array_Path);
-            this.LoadSongLists();//load songs
-        } catch (URISyntaxException | MalformedURLException e) {
+            try {
+                this.LoadSongLists();//load songs
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        } catch (MalformedURLException e) {
             e.printStackTrace();
         }
 
@@ -270,10 +274,17 @@ public class MediaPlayerS extends Service {
             //ON PLAY
             if (action.equalsIgnoreCase("action_play")) {
                 //nothing is here yet ;)
+                if(mp.isPlaying()){
+                    mp.pause();
+                }
+                else{
+                    mp.start();
+                }
             }
             //ON PAUSE
             else if (action.equalsIgnoreCase("action_pause")) {
                 this.MediaController.getTransportControls().pause();
+
             }
             //ON NEXT
             else if (action.equalsIgnoreCase("action_next")) {
@@ -354,6 +365,13 @@ public class MediaPlayerS extends Service {
  //on start
     public int onStartCommand(Intent intent, int i, int i2) {
         //Exception e;
+        try {
+            this.LoadSongLists();//load songs
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
         if (intent != null) {
           // System.out.println("Yass fam");
             if (this.MediaSesh == null) {

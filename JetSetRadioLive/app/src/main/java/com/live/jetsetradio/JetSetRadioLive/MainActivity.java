@@ -122,9 +122,7 @@ public class MainActivity extends FragmentActivity {
         // this.Viewpager.addOnPageChangeListener (new UpdateBG(this)); //add BG listener to change background
         LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(new CustomBR(this), new IntentFilter("JSRL.UPDATEBG"));
         getWindow().setSoftInputMode(3);//SOFT_INPUT_STATE_ALWAYS_HIDDEN
-        Intent intent = new Intent(getBaseContext(),MediaPlayerS.class); //make Media player intent
-        intent.setAction("action_preload"); //preload  intent
-        startService(intent); //start intent
+
         start_notifications();
     }
 
@@ -136,7 +134,9 @@ public class MainActivity extends FragmentActivity {
         Log.e("DEBUG", "MainActivity ONSTART");
        // SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()); //TBD
         super.onStart(); //start app
-
+       // Intent intent = new Intent(getBaseContext(),MediaPlayerS.class); //make Media player intent
+       // intent.setAction("action_preload"); //preload  intent
+        //startService(intent); //start intent
          m5846f();
     }
 
