@@ -250,7 +250,6 @@ public class MediaPlayerS extends Service {
         this.f3370s = LocalBroadcastManager.getInstance(getApplicationContext());
         this.mp = new MediaPlayer(); //make a media player
 
-
         this.mp.setAudioStreamType(3);
         this.mp.setWakeMode(getApplicationContext(), 1);
         this.f3372u = new Custom_BCR(this);
@@ -497,7 +496,7 @@ if(SongName != null) {
         try {
             song = URLEncoder.encode(split[i], "UTF-8");
             //song = URLEncoder.encode(song,"UTF-8");
-            System.out.println(song);
+            //System.out.println(song);
         } catch (UnsupportedEncodingException e1) {
             e1.printStackTrace();
         }
@@ -571,7 +570,7 @@ if(SongName != null) {
 
         public void getNextSong() throws MalformedURLException, URISyntaxException {
         System.out.println("CURRENT STATION IS... " + this.station_count);
-            this.LoadSongLists();
+          //  this.LoadSongLists();
         //System.out.println("FUKING CHRIST!1");
             if (this.currentSong == null) {
                 switch (this.station_count) {
