@@ -176,6 +176,7 @@ public class MainActivity extends FragmentActivity {
         moveTaskToBack(true);
     }
 
+    //start notification
     public void start_notifications() {
         Intent serviceIntent = new Intent(MainActivity.this, NotificationService.class);
         serviceIntent.setAction(Constants.ACTION.STARTFOREGROUND_ACTION);

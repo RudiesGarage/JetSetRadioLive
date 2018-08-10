@@ -98,6 +98,16 @@
             android:fadingEdge="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            />
+        <TextView
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:layout_gravity="left"
+            android:id="@+id/status_bar_station_name"
+            android:textColor="@color/JSR_Dark"
+            android:fadingEdge="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
 
             />
 

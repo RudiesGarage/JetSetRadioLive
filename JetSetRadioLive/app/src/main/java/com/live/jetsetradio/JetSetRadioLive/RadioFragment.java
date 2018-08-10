@@ -43,7 +43,7 @@ import java.util.prefs.Preferences;
 
 //Radio Portion of the APP
 public class RadioFragment extends Fragment {
-
+    Intent intent;
     private BroadcastReceiver My_BroadcastReceiver; //broadcast reciever
     private LocalBroadcastManager BroadcastManager; //broadcast manager
     private MediaPlayer mp; //media player
@@ -109,6 +109,7 @@ public class RadioFragment extends Fragment {
 
     //On start of radio fragment...
     public void onStart() {
+        intent = new Intent(getActivity().getBaseContext(), MediaPlayerS.class); //start on the intent
         super.onStart(); //start
        // SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
        // this.bgmsound = defaultSharedPreferences.getBoolean("bgmsound", true);
@@ -168,7 +169,7 @@ public class RadioFragment extends Fragment {
         final SegmentedGroup segmentedGroup4 = viewGroup2.findViewById(R.id.segmented4); //row 4
         segmentedGroup4.check(R.id.Shuffle); //make shuffle checked by default
         final   RadioFragment publicradio = new RadioFragment(); //make a public radio for all rows
-        final Intent intent = new Intent(getActivity().getBaseContext(), MediaPlayerS.class); //start on the intent
+
 
         //Button Handlers for row 1
         segmentedGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
