@@ -32,6 +32,5 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    api 'com.github.ceryle:SegmentedButton:v2.0.2'
     api 'info.hoang8f:android-segmented:1.0.6'
 }
