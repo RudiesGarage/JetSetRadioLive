@@ -25,6 +25,7 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.text.Html;
 import android.util.Log;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,7 +57,7 @@ public class MediaPlayerS extends Service {
 
     TelephonyManager f3352a;
     PhoneStateListener f3353b;
-
+    public static boolean isPlaying = false;
     private MediaSessionCompat MediaSesh; //Media Session
     private MediaControllerCompat MediaController; //Media Controller
     private MediaPlayer mp; //Media Player
@@ -82,7 +83,7 @@ public class MediaPlayerS extends Service {
 
     private boolean f3368q = false;
     private boolean f3369r = false;
-    private boolean isPlaying = false;
+    //private boolean isPlaying = false;
     private LocalBroadcastManager f3370s;
     private IntentFilter f3371t = new IntentFilter("android.media.AUDIO_BECOMING_NOISY");
 
@@ -271,33 +272,65 @@ public class MediaPlayerS extends Service {
             //CHECKING MEDIA STATE
             String action = intent.getAction();
             //ON PLAY
+            if(action.equals("change_icon")){
+
+                    RemoteViews bigViews = new RemoteViews(getPackageName(), R.layout.status_bar_expanded);
+                    bigViews.setImageViewBitmap(R.id.status_bar_play, Constants.PausePlay(this,MediaPlayerS.isPlaying));
+
+            }
             if (action.equalsIgnoreCase("action_play")) {
                 //nothing is here yet ;)
+                if(!NotificationService.isIntentServiceRunning){
+                    Intent serviceIntent = new Intent(this, NotificationService.class);
+                    serviceIntent.setAction(Constants.ACTION.STARTFOREGROUND_ACTION);
+                    startService(serviceIntent);
+                }
                 if(mp.isPlaying()){
                     mp.pause();
                 }
                 else{
                     mp.start();
                 }
+                isPlaying = true;
             }
             //ON PAUSE
             else if (action.equalsIgnoreCase("action_pause")) {
+                if(!NotificationService.isIntentServiceRunning){
+                    Intent serviceIntent = new Intent(this, NotificationService.class);
+                    serviceIntent.setAction(Constants.ACTION.STARTFOREGROUND_ACTION);
+                    startService(serviceIntent);
+                }
+                isPlaying = false;
                 this.MediaController.getTransportControls().pause();
 
             }
             //ON NEXT
             else if (action.equalsIgnoreCase("action_next")) {
+
+                if(!NotificationService.isIntentServiceRunning){
+                    Intent serviceIntent = new Intent(this, NotificationService.class);
+                    serviceIntent.setAction(Constants.ACTION.STARTFOREGROUND_ACTION);
+                    startService(serviceIntent);
+                }
                 this.getNextSong();
+                isPlaying = true;
                 //mp.start();
                 //playSong();
                  this.MediaController.getTransportControls().skipToNext();
             }
             //ON STOP
             else if (action.equalsIgnoreCase("action_stop")) {
+                if(!NotificationService.isIntentServiceRunning){
+                    Intent serviceIntent = new Intent(this, NotificationService.class);
+                    serviceIntent.setAction(Constants.ACTION.STARTFOREGROUND_ACTION);
+                    startService(serviceIntent);
+                }
+                isPlaying = false;
                mp.stop();
                mp.release();
                 // this.MediaController.m1670a().mo278c();
             }
+
         }
     }
 

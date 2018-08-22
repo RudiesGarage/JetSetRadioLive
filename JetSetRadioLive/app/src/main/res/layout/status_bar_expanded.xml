@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout android:id="@+id/notificationbg" android:layout_width="fill_parent" android:layout_height="128.0dip"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/JSR_Light"
-   >
+    android:background="@color/JSR_Light" >
 
     <ImageView
         android:id="@+id/status_bar_album_art"
@@ -10,7 +9,8 @@
         android:layout_height="@dimen/notification_expanded_height"
         android:scaleType="centerCrop"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true"
+        android:clickable="false"/>
 
     <LinearLayout
         android:gravity="center_vertical"
@@ -23,7 +23,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:showDividers="middle"
-        android:dividerPadding="12.0dip">
+        android:dividerPadding="12.0dip"
+        android:clickable="false">
         <ImageButton
             android:id="@+id/status_bar_prev"
             android:background="?android:selectableItemBackground"
@@ -41,7 +42,8 @@
             android:layout_height="@dimen/play_controls_notification"
             android:src="@drawable/apollo_holo_dark_play"
             android:scaleType="fitCenter"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            />
         <ImageButton android:id="@+id/status_bar_next"
             android:background="?android:selectableItemBackground"
             android:padding="10.0dip"
@@ -57,7 +59,8 @@
         android:layout_height="1.0px"
         android:layout_toRightOf="@id/status_bar_album_art"
         android:layout_above="@+id/buttons"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:clickable="false"/>
     <ImageButton
         android:id="@id/status_bar_collapse"
         android:background="?android:selectableItemBackground"
@@ -66,7 +69,8 @@
         android:layout_height="wrap_content"
         android:src="@drawable/apollo_holo_dark_notifiation_bar_collapse"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        />
     <LinearLayout
         android:layout_gravity="center_vertical"
         android:orientation="vertical"
@@ -77,7 +81,8 @@
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@id/status_bar_collapse"
         android:layout_toRightOf="@id/status_bar_album_art"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:clickable="false">
         <TextView
             android:ellipsize="marquee"
             android:layout_gravity="left"

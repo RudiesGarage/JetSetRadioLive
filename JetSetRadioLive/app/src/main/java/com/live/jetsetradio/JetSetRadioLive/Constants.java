@@ -3,6 +3,7 @@ package com.live.jetsetradio.JetSetRadioLive;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 public class Constants {
     public interface ACTION {
@@ -31,5 +32,21 @@ public class Constants {
         }
         return bm;
     }
+    public static Bitmap PausePlay(Context context, boolean isPlaying) {
+        Bitmap bm = null;
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        try {
+            if(isPlaying){
+                bm = BitmapFactory.decodeResource(context.getResources(),
+                        R.drawable.apollo_holo_dark_pause, options);
+            }else{
+                bm = BitmapFactory.decodeResource(context.getResources(),
+                        R.drawable.apollo_holo_dark_play, options);
+            }
 
+        } catch (Error | Exception ee) {
+            Log.e("Contstants","ERROR IN MAKING BITMAP!");
+        }
+        return bm;
+    }
 }

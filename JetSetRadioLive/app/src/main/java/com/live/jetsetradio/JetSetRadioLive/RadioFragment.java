@@ -87,7 +87,7 @@ public class RadioFragment extends Fragment {
             //make media player
             Intent intent = new Intent(this.rf.getContext(), MediaPlayerS.class);
             intent.setAction("action_next"); //set the action_next
-            this.rf.getActivity().startService(intent); //start intent
+
         }
     }
 
@@ -425,9 +425,6 @@ public class RadioFragment extends Fragment {
     //on destroy
     public void onDestroy() {
         Log.e("DEBUG", "OnDestroy!");
-        Intent intent = new Intent(getContext(), MediaPlayerS.class);
-        intent.setAction("action_stop");
-        getActivity().stopService(intent);
         super.onDestroy();
     }
 }

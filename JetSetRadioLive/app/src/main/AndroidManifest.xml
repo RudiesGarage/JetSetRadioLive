@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.live.jetsetradio.JetSetRadioLive"
     android:versionCode="10"
-    android:versionName="0.0.1">
+    android:versionName="0.0.1"
+    >
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -29,7 +30,8 @@
             android:name=".MainActivity"
             android:alwaysRetainTaskState="true"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:launchMode="singleInstance">
+            android:launchMode="singleInstance"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
                 <action android:name="android.media.AUDIO_BECOMING_NOISY" />
@@ -52,7 +54,8 @@
         <service
             android:name=".MediaPlayerS"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"
+           />
         <service
             android:name=".NotificationService"
             android:enabled="true"

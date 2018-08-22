@@ -180,6 +180,7 @@ public class MainActivity extends FragmentActivity {
     public void start_notifications() {
         Intent serviceIntent = new Intent(MainActivity.this, NotificationService.class);
         serviceIntent.setAction(Constants.ACTION.STARTFOREGROUND_ACTION);
+        serviceIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startService(serviceIntent);
     }
 }
