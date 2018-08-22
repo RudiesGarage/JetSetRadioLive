@@ -58,6 +58,7 @@ public class MediaPlayerS extends Service {
     TelephonyManager f3352a;
     PhoneStateListener f3353b;
     public static boolean isPlaying = false;
+
     private MediaSessionCompat MediaSesh; //Media Session
     private MediaControllerCompat MediaController; //Media Controller
     private MediaPlayer mp; //Media Player
@@ -79,7 +80,7 @@ public class MediaPlayerS extends Service {
     private Song currentSong;
     private Song cachedSong;
 
-    private int station_count;
+    public static int station_count;
 
     private boolean f3368q = false;
     private boolean f3369r = false;
@@ -266,18 +267,18 @@ public class MediaPlayerS extends Service {
         if (intent != null && intent.getAction() != null) {
             //CHECK IF STATION SWITCH
             if (intent.hasExtra("Station")) {
-                this.station_count = intent.getIntExtra("Station", 0);
+                station_count = intent.getIntExtra("Station", 0);
+                Intent noteIntent = new Intent(this, NotificationService.class);
+                noteIntent.setAction(Constants.ACTION.STOPFOREGROUND_ACTION);
+                Intent serviceIntent = new Intent(this, NotificationService.class);
+                serviceIntent.setAction(Constants.ACTION.STARTFOREGROUND_ACTION);
+                startService(serviceIntent);
             }
 
             //CHECKING MEDIA STATE
             String action = intent.getAction();
             //ON PLAY
-            if(action.equals("change_icon")){
 
-                    RemoteViews bigViews = new RemoteViews(getPackageName(), R.layout.status_bar_expanded);
-                    bigViews.setImageViewBitmap(R.id.status_bar_play, Constants.PausePlay(this,MediaPlayerS.isPlaying));
-
-            }
             if (action.equalsIgnoreCase("action_play")) {
                 //nothing is here yet ;)
                 if(!NotificationService.isIntentServiceRunning){
@@ -602,11 +603,11 @@ if(SongName != null) {
 
 
         public void getNextSong() throws MalformedURLException, URISyntaxException {
-        System.out.println("CURRENT STATION IS... " + this.station_count);
+        System.out.println("CURRENT STATION IS... " + station_count);
           //  this.LoadSongLists();
         //System.out.println("FUKING CHRIST!1");
             if (this.currentSong == null) {
-                switch (this.station_count) {
+                switch (station_count) {
                     case 0:
                         this.currentSong =  this.shuffle_array.get(new Random().nextInt(this.shuffle_array.size()));
                         break;

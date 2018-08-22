@@ -32,21 +32,71 @@ public class Constants {
         }
         return bm;
     }
-    public static Bitmap PausePlay(Context context, boolean isPlaying) {
+
+    public static Bitmap getAlbumArt(Context context,int station){
         Bitmap bm = null;
         BitmapFactory.Options options = new BitmapFactory.Options();
         try {
-            if(isPlaying){
-                bm = BitmapFactory.decodeResource(context.getResources(),
-                        R.drawable.apollo_holo_dark_pause, options);
-            }else{
-                bm = BitmapFactory.decodeResource(context.getResources(),
-                        R.drawable.apollo_holo_dark_play, options);
-            }
 
+            switch(station){
+                case 0:
+                    bm = BitmapFactory.decodeResource(context.getResources(),
+                            R.mipmap.ic_launcher, options);
+                    break;
+                case 1:
+                    bm = BitmapFactory.decodeResource(context.getResources(),
+                            R.drawable.classic, options);
+                    break;
+                case 2:
+                    bm = BitmapFactory.decodeResource(context.getResources(),
+                            R.drawable.future, options);
+                    break;
+                case 3:
+                    bm = BitmapFactory.decodeResource(context.getResources(),
+                            R.drawable.ggs, options);
+                    break;
+                case 4:
+                    bm = BitmapFactory.decodeResource(context.getResources(),
+                            R.drawable.poisonjam, options);
+                    break;
+                case 5:
+                    bm = BitmapFactory.decodeResource(context.getResources(),
+                            R.drawable.noisetanks, options);
+                    break;
+                case 6:
+                    bm = BitmapFactory.decodeResource(context.getResources(),
+                            R.drawable.loveshockers, options);
+                    break;
+                case 7:
+                    bm = BitmapFactory.decodeResource(context.getResources(),
+                            R.drawable.rapid99, options);
+                    break;
+                case 8:
+                    bm = BitmapFactory.decodeResource(context.getResources(),
+                            R.drawable.immortals, options);
+                    break;
+                case 9:
+                    bm = BitmapFactory.decodeResource(context.getResources(),
+                            R.drawable.doomriders, options);
+                    break;
+                case 10:
+                    bm = BitmapFactory.decodeResource(context.getResources(),
+                            R.drawable.goldenrhinos, options);
+                    break;
+                case 11:
+                    bm = BitmapFactory.decodeResource(context.getResources(),
+                            R.drawable.summer, options);
+                    break;
+                default:
+                    bm = BitmapFactory.decodeResource(context.getResources(),
+                            R.mipmap.ic_launcher, options);
+                    break;
+
+            }
         } catch (Error | Exception ee) {
-            Log.e("Contstants","ERROR IN MAKING BITMAP!");
+
         }
         return bm;
     }
+
 }

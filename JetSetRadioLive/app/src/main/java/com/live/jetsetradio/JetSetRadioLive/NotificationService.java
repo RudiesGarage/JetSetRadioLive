@@ -56,7 +56,7 @@ public class NotificationService extends Service {
     private void showPlayingNotification(){
         RemoteViews bigViews = new RemoteViews(getPackageName(), R.layout.status_bar_expanded);
         bigViews.setImageViewBitmap(R.id.status_bar_album_art,
-                Constants.getDefaultAlbumArt(this));
+                Constants.getAlbumArt(this,MediaPlayerS.station_count));
 
         //set notification intent
         Intent notificationIntent = new Intent(this, MainActivity.class);
@@ -127,10 +127,11 @@ public class NotificationService extends Service {
 
         views.setViewVisibility(R.id.status_bar_icon, View.VISIBLE);
         views.setViewVisibility(R.id.status_bar_album_art, View.GONE);
+        views.setViewVisibility(R.id.status_bar_station_name,View.GONE);
 
         // showing default album image
         bigViews.setImageViewBitmap(R.id.status_bar_album_art,
-                Constants.getDefaultAlbumArt(this));
+                Constants.getAlbumArt(this,MediaPlayerS.station_count));
 
         //set notification intent
         Intent notificationIntent = new Intent(this, MainActivity.class);
@@ -182,7 +183,8 @@ public class NotificationService extends Service {
         //set Texts
         bigViews.setTextViewText(R.id.status_bar_track_name, "Song Title");
         bigViews.setTextViewText(R.id.status_bar_artist_name, "Artist Name");
-        bigViews.setTextViewText(R.id.status_bar_station_name, "Station Name");
+        bigViews.setTextViewText(R.id.status_bar_station_name, GetStation());
+
         views.setTextViewText(R.id.status_bar_track_name, "Song Title");
         views.setTextViewText(R.id.status_bar_artist_name, "Artist Name");
 
@@ -195,4 +197,49 @@ public class NotificationService extends Service {
         status.contentIntent = pendingIntent;
         startForeground(Constants.NOTIFICATION_ID.FOREGROUND_SERVICE, status);
     }
+
+
+    private String GetStation(){
+        switch (MediaPlayerS.station_count){
+            case 0:
+                return "Shuffle";
+
+            case 1:
+                return "Classic";
+
+            case 2:
+                return "Future";
+
+            case 3:
+                return "GGs";
+
+            case 4:
+                return "Poison Jam";
+
+            case 5:
+                return "Noise Tanks";
+
+            case 6:
+                return "LoveShockers";
+
+            case 7:
+                return "Rapid 99";
+
+            case 8:
+                return "Immortals";
+
+            case 9:
+                return "Doom Riders";
+
+            case 10:
+                return "Golden Rhinos";
+
+            default:
+                return "Summer";
+
+        }
+    }
+
+
 }
+
