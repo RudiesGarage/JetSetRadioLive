@@ -14,7 +14,7 @@ Android Phone (min. API 21)
 On your Android Phone:
 
 Download the latest safe APK to your phone in the Releases Folder!
-Follow these [instructions] (https://www.wikihow.tech/Install-APK-Files-on-Android)
+Follow these [instructions](https://www.wikihow.tech/Install-APK-Files-on-Android)
 
 
 ### Stations
