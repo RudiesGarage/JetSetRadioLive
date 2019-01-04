@@ -3,7 +3,7 @@ The Android App for [JetSetRadioLive](https://jetsetradio.live/) so even the cop
 
 ### Prerequisites
 
-Android Phone (min.API 21)
+Android Phone (min. API 21)
 
 ### Installing
 
@@ -32,19 +32,23 @@ Follow these [instructions](https://www.wikihow.tech/Install-APK-Files-on-Androi
   * Shuffle
 
 ### Current Features
-  ..* 10 Unique Station + 1 Shuffle Stations
-  ..* Background Music Playability
-  ..* Pause When Receiving a Call
-  ..* Pause when playing another App that requires Music
-  ..* Notification Bar Quick Toggle
+  * 10 Unique Station + 1 Shuffle Stations
+  * Background Music Playability
+  * Pause When Receiving a Call
+  * Pause when playing another App that requires Music
+  * Notification Bar Quick Toggle
+  * Pause on Headphone disconnect
+
+### Known Bugs
+  * Notification De-Sync
 
 ### Upcoming Features
-  ..* "Previous" Button
-  ..* Higher Quality Backgrounds
-  ..* Change Station on Notification
-  ..* Custom Station - music loaded from local phone storage
-  ..* Custom Backgrounds
-  ..* JSRL Chat Connectivity
+  * "Previous" Button
+  * Higher Quality Backgrounds
+  * Change Station on Notification
+  * Custom Station - music loaded from local phone storage
+  * Custom Backgrounds
+  * JSRL Chat Connectivity
 
 ### Built With
 
