@@ -1,5 +1,9 @@
-# JetSetRadioLive
+# JetSetRadioLive Android App
 The Android App for [JetSetRadioLive](https://jetsetradio.live/) so even the cops can tune in when they're not eating donuts!
+
+##Download
+[Download here](https://drive.google.com/file/d/1bkgJvhnHtAnkI7kjXGBxU1SAWUnflp9t/view)
+
 
 ### Prerequisites
 
@@ -25,7 +29,7 @@ Follow these [instructions](https://www.wikihow.tech/Install-APK-Files-on-Androi
   * NOISE TANKS - Digital & electronic sounds to fry your brain!
   * LOVE SHOCKERS - Twisted, heartbroken, & love-sick ladies!
   * RAPID 99 - Upbeat & chill female tunes!
-  * THE IMMORTALS - Ethnic music & balkan beats!
+  * THE IMMORTALS - Ethnic music & Balkan beats!
   * DOOM RIDERS - Biker music & classic rock!
   * GOLDEN RHINOS - Hip-Hop beats with deep classical rhythms of power and authority!
   * Summer - Chill Summer tunes
