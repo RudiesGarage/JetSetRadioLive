@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/chatcontainer"
+    android:tileMode="disabled"
+    android:gravity="top">
+
+    <ImageView
+        android:id="@+id/chatbackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:alpha="0.5"
+        android:background="@drawable/shufflewallpaper"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/BG_desc"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/comingsoom"
+        android:gravity="center"
+        android:textSize="24sp"/>
+</RelativeLayout>

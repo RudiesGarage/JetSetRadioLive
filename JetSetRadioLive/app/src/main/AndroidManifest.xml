@@ -1,65 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.live.jetsetradio.JetSetRadioLive"
-    android:versionCode="10"
-    android:versionName="0.0.1"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.dem.jetsetradiolive"
     >
-
-    <uses-sdk
-        android:minSdkVersion="15"
-        android:targetSdkVersion="25" />
-
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACTION_HEADSET_PLUG" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
+    <uses-permission android:name="android.permission.ACTION_HEADSET_PLUG"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <permission android:name="android.permission.MEDIA_CONTENT_CONTROL"/>
     <application
         android:allowBackup="true"
-        android:configChanges="keyboardHidden|orientation|screenSize"
+        android:largeHeap="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:largeHeap="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".MainActivity"
-            android:alwaysRetainTaskState="true"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:launchMode="singleInstance"
-            >
+        <activity android:name=".MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MEDIA_BUTTON" />
-                <action android:name="android.media.AUDIO_BECOMING_NOISY" />
-                <action android:name="android.media.browse.MediaBrowserService" />
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name="android.support.v4.media.session.MediaButtonReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.MEDIA_BUTTON" />
-                <action android:name="android.media.AUDIO_BECOMING_NOISY" />
-            </intent-filter>
-        </receiver>
-
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="ce669ad4cd8ffc5ba2cf6a86be65ac0ceeaabf78" />
-
         <service
-            android:name=".MediaPlayerS"
-            android:enabled="true"
-            android:exported="true"
-           />
+            android:name=".Firebase_Controller"
+            android:stopWithTask="true">
+        </service>
         <service
-            android:name=".NotificationService"
-            android:enabled="true"
-            android:exported="true" />
+            android:name=".MediaPlayerServiceManager"
+            android:stopWithTask="true">
+        </service>
     </application>
 
 </manifest>

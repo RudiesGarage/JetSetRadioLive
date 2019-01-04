@@ -1,13 +1,20 @@
 <resources>
     <string name="app_name">Jet Set Radio Live</string>
+    <string name="Image_desc">JetSetRadioLive Station Logo</string>
+    <string name="BG_desc">JetSetRadioLive Station Background</string>
+    <string name="summer">Summer</string>
+    <string name="classic">Classic</string>
+    <string name="future">Future</string>
+    <string name="ggs">GGs</string>
+    <string name="poisonjam">Poison Jam</string>
+    <string name="noisetanks">Noise Tanks</string>
+    <string name="loveshockers">Love Shockers</string>
+    <string name="rapid99">Rapid 99</string>
+    <string name="immortals">Immortals</string>
+    <string name="doomriders">Doom Riders</string>
+    <string name="goldenrhinos">Golden Rhinos</string>
+    <string name="shuffle">Shuffle</string>
+    <string name="comingsoom">Chat Feature Coming Soon&#8230;</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="app_version_number">1.0</string>
-    <string name="menu_settings">Settings</string>
 
-    <string name="cd_repeat">Repeat one or all</string>
-    <string name="cd_previous">Skip backwards</string>
-    <string name="cd_play">Play and pause</string>
-    <string name="cd_next">Skip forwards</string>
 </resources>

@@ -1,34 +1,221 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:id="@+id/container"
+    android:tileMode="disabled"
+    android:gravity="top">
 
-   <!-- <RelativeLayout xmlns:android="http://schemas.android.com/apk/res-auto" app:id="@id/background" app:paddingLeft="@dimen/activity_horizontal_margin" app:paddingTop="@dimen/activity_vertical_margin" app:paddingRight="@dimen/activity_horizontal_margin" app:paddingBottom="@dimen/activity_vertical_margin" app:layout_width="match_parent" app:layout_height="match_parent">
-        <LinearLayout app:gravity="top|bottom|left|right|center_vertical|fill_vertical|center_horizontal|fill_horizontal|center|fill|start|end" app:orientation="vertical" app:layout_width="match_parent" app:layout_height="match_parent">
-            <ImageView app:layout_gravity="left|right|center_horizontal|fill_horizontal|center|fill|start|end" app:id="@id/settingsbutton" app:layout_width="wrap_content" app:layout_height="wrap_content" app:src="@drawable/ic_optionsbutton" />
-            <info.hoang8f.android.segmented.SegmentedGroup app:orientation="horizontal" app:id="@id/segmented" app:layout_width="match_parent" app:layout_height="wrap_content" app:layout_marginTop="5dp" app:layout_marginBottom="5dp" app:sc_tint_color="@color/white" app:sc_checked_text_color="@color/black">
-                <RadioButton app:gravity="top|bottom|left|right|center_vertical|fill_vertical|center_horizontal|fill_horizontal|center|fill|start|end" app:id="@id/radioButton" app:layout_width="wrap_content" app:layout_height="wrap_content" app:checked="true" app:text="Classic" app:layout_weight="1.0" style="@style/RadioButton" />
-                <RadioButton app:gravity="top|bottom|left|right|center_vertical|fill_vertical|center_horizontal|fill_horizontal|center|fill|start|end" app:id="@id/radioButton2" app:layout_width="wrap_content" app:layout_height="wrap_content" app:text="Love" app:layout_weight="1.0" style="@style/RadioButton" />
-                <RadioButton app:gravity="top|bottom|left|right|center_vertical|fill_vertical|center_horizontal|fill_horizontal|center|fill|start|end" app:id="@id/radioButton3" app:layout_width="wrap_content" app:layout_height="wrap_content" app:text="Noise" app:layout_weight="1.0" style="@style/RadioButton" />
-                <RadioButton app:gravity="top|bottom|left|right|center_vertical|fill_vertical|center_horizontal|fill_horizontal|center|fill|start|end" app:id="@id/radioButton4" app:layout_width="wrap_content" app:layout_height="wrap_content" app:text="Poison" app:layout_weight="1.0" style="@style/RadioButton" />
-            </info.hoang8f.android.segmented.SegmentedGroup>
-            <info.hoang8f.android.segmented.SegmentedGroup app:orientation="horizontal" app:id="@id/segmented2" app:layout_width="match_parent" app:layout_height="wrap_content" app:layout_marginBottom="5dp" app:sc_tint_color="@color/white" app:sc_checked_text_color="@color/black">
-                <RadioButton app:gravity="top|bottom|left|right|center_vertical|fill_vertical|center_horizontal|fill_horizontal|center|fill|start|end" app:id="@id/radioButton5" app:layout_width="wrap_content" app:layout_height="wrap_content" app:text="Rapid" app:layout_weight="1.0" style="@style/RadioButton" />
-                <RadioButton app:gravity="top|bottom|left|right|center_vertical|fill_vertical|center_horizontal|fill_horizontal|center|fill|start|end" app:id="@id/radioButton6" app:layout_width="wrap_content" app:layout_height="wrap_content" app:text="Immortal" app:layout_weight="1.0" style="@style/RadioButton" />
-                <RadioButton app:gravity="top|bottom|left|right|center_vertical|fill_vertical|center_horizontal|fill_horizontal|center|fill|start|end" app:id="@id/radioButton7" app:layout_width="wrap_content" app:layout_height="wrap_content" app:text="Rhinos" app:layout_weight="1.0" style="@style/RadioButton" />
-                <RadioButton app:gravity="top|bottom|left|right|center_vertical|fill_vertical|center_horizontal|fill_horizontal|center|fill|start|end" app:id="@id/radioButton8" app:layout_width="wrap_content" app:layout_height="wrap_content" app:text="Doom" app:layout_weight="1.0" style="@style/RadioButton" />
-            </info.hoang8f.android.segmented.SegmentedGroup>
-            <info.hoang8f.android.segmented.SegmentedGroup app:orientation="horizontal" app:id="@id/segmented3" app:layout_width="wrap_content" app:layout_height="wrap_content" app:layout_marginBottom="5dp" app:sc_tint_color="@color/white" app:sc_checked_text_color="@color/black">
-                <RadioButton app:gravity="top|bottom|left|right|center_vertical|fill_vertical|center_horizontal|fill_horizontal|center|fill|start|end" app:id="@id/radioButton9" app:layout_width="wrap_content" app:layout_height="wrap_content" app:text="Shuffle" app:layout_weight="1.0" style="@style/RadioButton" />
-            </info.hoang8f.android.segmented.SegmentedGroup>
-            <TextView app:id="@id/listeners" app:padding="5dp" app:layout_width="wrap_content" app:layout_height="wrap_content" app:text=" " />
-            <ImageView app:layout_gravity="left|right|center_horizontal|fill_horizontal|center|fill|start|end" app:id="@id/imageView1" app:clickable="true" app:longClickable="false" app:layout_width="match_parent" app:layout_height="UNKNOWN_DATA_0x1" app:src="@drawable/classic" app:scaleType="centerInside" app:layout_weight="5.0" />
-            <TextView app:textAppearance="?unknown_attr_ref: 1010040" app:textColor="#ffffff" app:ellipsize="marquee" app:gravity="top|bottom|left|right|center_vertical|fill_vertical|center_horizontal|fill_horizontal|center|fill|start|end" app:layout_gravity="left|right|center_horizontal|fill_horizontal|center|fill|start|end" app:id="@id/songtitle" app:layout_width="match_parent" app:layout_height="wrap_content" app:scrollHorizontally="true" app:singleLine="true" app:layout_weight="0.5" app:marqueeRepeatLimit="marquee_forever" />
-            <TextView app:textAppearance="?unknown_attr_ref: 1010042" app:gravity="left|right|center_horizontal|fill_horizontal|center|fill|start|end" app:layout_gravity="left|right|center_horizontal|fill_horizontal|center|fill|start|end" app:id="@id/songartist" app:layout_width="match_parent" app:layout_height="wrap_content" app:layout_weight="0.5" />
-        </LinearLayout>
-    </RelativeLayout> -->
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:alpha="0.5"
+        android:background="@drawable/shufflewallpaper"
+        android:scaleType="centerCrop"/>
+        <!--android:paddingTop="@dimen/activity_vertical_margin"-->
+        <!--android:paddingBottom="@dimen/activity_vertical_margin"-->
 
-</android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="551dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical">
+
+
+        <info.hoang8f.android.segmented.SegmentedGroup xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/segmented1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            segmentedgroup:sc_checked_text_color="#000000"
+            segmentedgroup:sc_tint_color="#ffffff"
+
+            segmentedgroup:sc_border_width="2dp"
+            segmentedgroup:sc_corner_radius="10dp">
+
+            <RadioButton
+                android:id="@+id/Summer"
+                style="@style/RadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Summer"
+
+                />
+
+            <RadioButton
+                android:id="@+id/Classic"
+                style="@style/RadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Classc"
+                />
+
+            <RadioButton
+                android:id="@+id/Future"
+                style="@style/RadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Future"
+                />
+
+            <RadioButton
+                android:id="@+id/GGs"
+                style="@style/RadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="GGs"
+                />
+
+        </info.hoang8f.android.segmented.SegmentedGroup>
+
+
+        <info.hoang8f.android.segmented.SegmentedGroup
+            xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/segmented2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            segmentedgroup:sc_checked_text_color="#000000"
+            segmentedgroup:sc_tint_color="#ffffff"
+
+            segmentedgroup:sc_border_width="2dp"
+            segmentedgroup:sc_corner_radius="10dp">
+
+            <RadioButton
+                android:id="@+id/PoisonJam"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Poison Jam "
+                style="@style/RadioButton"
+                />
+
+            <RadioButton
+                android:id="@+id/NoiseTanks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Noise Tanks"
+                style="@style/RadioButton"
+
+                />
+            <RadioButton
+                android:id="@+id/LoveShockers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Love Shockers"
+                style="@style/RadioButton"
+                />
+
+        </info.hoang8f.android.segmented.SegmentedGroup>
+
+
+        <info.hoang8f.android.segmented.SegmentedGroup
+            xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/segmented3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            segmentedgroup:sc_checked_text_color="#000000"
+            segmentedgroup:sc_tint_color="#ffffff"
+
+            segmentedgroup:sc_border_width="2dp"
+            segmentedgroup:sc_corner_radius="10dp"
+            >
+
+            <RadioButton
+                android:id="@+id/Rapid99"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rapid 99"
+                style="@style/RadioButton"/>
+            <RadioButton
+                android:id="@+id/Immortals"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Immortals"
+                style="@style/RadioButton"/>
+
+            <RadioButton
+                android:id="@+id/DoomRiders"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Doom Riders"
+                style="@style/RadioButton"/>
+
+            <RadioButton
+                android:id="@+id/GoldenRhinos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Golden Rhinos"
+                style="@style/RadioButton"/>
+        </info.hoang8f.android.segmented.SegmentedGroup>
+
+
+        <info.hoang8f.android.segmented.SegmentedGroup
+            xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/segmented4"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal"
+            segmentedgroup:sc_checked_text_color="#000000"
+            segmentedgroup:sc_tint_color="#ffffff"
+
+            segmentedgroup:sc_border_width="2dp"
+            segmentedgroup:sc_corner_radius="10dp">
+
+
+            <RadioButton
+                android:id="@+id/Shuffle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Shuffle"
+                style="@style/RadioButton"/>
+        </info.hoang8f.android.segmented.SegmentedGroup>
+
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/StationLogo"
+        android:layout_width="235dp"
+        android:layout_height="201dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="132dp"
+        android:src="@drawable/shuffle"
+        android:visibility="visible"
+        app:srcCompat="@drawable/shuffle" />
+
+    <TextView
+        android:id="@+id/songtitle"
+        android:layout_width="181dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="54dp" />
+
+    <TextView
+        android:id="@+id/songartist"
+        android:layout_width="221dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-54dp" />
+
+
+</RelativeLayout>
