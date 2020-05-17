@@ -2,7 +2,6 @@
 The Android App for [JetSetRadioLive](https://jetsetradio.live/) so even the cops can tune in when they're not eating donuts!
 
 ## Download
-[Download here](https://drive.google.com/file/d/1bkgJvhnHtAnkI7kjXGBxU1SAWUnflp9t/view)
 
 
 ### Prerequisites
@@ -28,35 +27,32 @@ Follow these [instructions](https://www.wikihow.tech/Install-APK-Files-on-Androi
   * THE IMMORTALS - Ethnic music & Balkan beats!
   * DOOM RIDERS - Biker music & classic rock!
   * GOLDEN RHINOS - Hip-Hop beats with deep classical rhythms of power and authority!
-  * Summer - Chill Summer tunes
-  * Shuffle
+  * King for Another Day - All the songs featured in the King for another Day tournament by the Silva Gunner team 
+  * Revolution - Songs to protest to.
+  * Hover - The OST from the game [Hover](https://store.steampowered.com/app/280180/Hover/)
+  * Butteflies - The Ost from the game [Butterflies](https://le-capitaine.itch.io/butterflies-episode-1)
+  * Memories of Tokyo-to - The JSR tribute album by [2-Mello](https://2mellomakes.bandcamp.com/album/memories-of-tokyo-to-an-ode-to-jet-set-radio)
+  * Elaquent - Songs by [Elaquent](https://soundcloud.com/Elaquent) 
+  * Lo-Fi - Lo-fi beats to study and chill to.
+  * Ollie king - The OST from the game OllieKing
+  * Toe Jam & Earl - The OST from the game Toe Jam & Earl
+  * Crazy Taxi - The OST from the game Crazy Taxi
+  * End of Days - Songs that breath the end of the world.
+  * Summer - Chill Summer tunes. This station is only available from May to August
+  * Halloween - Spoopy sounds. This station is only available in September and October
+  * Christmas - Hip-hop holiday tunes. This station is only available in November, December, and January.
 
 ### Current Features
-  * 10 Unique Station + 1 Shuffle Stations
-  * Background Music Playability
-  * Pause When Receiving a Call
-  * Pause when playing another App that requires Music
-  * Notification Bar Quick Toggle
-  * Pause on Headphone disconnect
+  
 
 ### Known Bugs
   * Notification De-Sync
 
 ### Upcoming Features
   * "Previous" Button
-  * Higher Quality Backgrounds
-  * Change Station on Notification
-  * Custom Station - music loaded from local phone storage
-  * Custom Backgrounds
+  * MediaPlayer on Lock Screen
   * JSRL Chat Connectivity
 
-### Built With
-
-* [Gradle](https://gradle.org/) - Dependency Management
-
-* [Segmented Groups](https://github.com/Kaopiz/android-segmented-control) - UI Buttons
-
-* [Glide](https://github.com/bumptech/glide) - Image Loading
 
 ## License
 

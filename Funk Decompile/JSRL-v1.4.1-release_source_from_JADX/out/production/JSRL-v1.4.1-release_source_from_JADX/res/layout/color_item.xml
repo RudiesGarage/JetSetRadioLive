@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent">
-    <ImageView android:layout_gravity="top|bottom|left|right|center_vertical|fill_vertical|center_horizontal|fill_horizontal|center|fill|start|end" android:id="@c1264b/selected_checkmark" android:visibility="invisible" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_margin="@c1263a/color_item_selected_check_margins" android:src="@drawable/ic_check_white_24dp" android:scaleType="fitXY" />
-</merge>

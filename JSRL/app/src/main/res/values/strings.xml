@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">JSRL</string>
+    <string name="songtitle">songtitle</string>
+    <string name="artistname">artist</string>
+</resources>

@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android" android:padding="10dp" android:shape="rectangle">
-    <solid android:color="@c1275a/radio_button_selected_color" />
-    <stroke android:width="@c1276b/radio_button_stroke_border" android:color="@c1275a/radio_button_selected_color" />
-</shape>
