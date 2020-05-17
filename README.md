@@ -2,7 +2,7 @@
 The Android App for [JetSetRadioLive](https://jetsetradio.live/) so even the cops can tune in when they're not eating donuts!
 
 ## Download
-
+You are able to download the most current version [here](https://github.com/Mcdonoughd/JetSetRadioLive/raw/master/Release/JSR-release.apk)
 
 ### Prerequisites
 
