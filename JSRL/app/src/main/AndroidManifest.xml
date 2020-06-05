@@ -1,28 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.jetsetradio.jsrl">
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    xmlns:dist="http://schemas.android.com/apk/distribution"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.jetsetradio.live">
+
+    <dist:module dist:instant="true" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
     <application
+        android:name=".MediaApplication"
         android:allowBackup="true"
-        android:icon="@drawable/profk"
+        android:icon="@mipmap/profk"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/profk"
+        android:roundIcon="@mipmap/profk"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity
+            android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HomeActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.Homme" />
-                <category android:name="android.intent.category.APP_MUSIC" />
-            </intent-filter>
-        </activity>
-    </application>
 
+        <service android:name=".service.MusicService">
+            <intent-filter>
+                <action android:name="android.media.browse.MediaBrowserService" />
+            </intent-filter>
+        </service>
+
+        <receiver android:name="androidx.media.session.MediaButtonReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
+    </application>
 </manifest>

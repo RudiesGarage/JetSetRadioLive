@@ -42,8 +42,6 @@ Follow these [instructions](https://www.wikihow.tech/Install-APK-Files-on-Androi
   * Halloween - Spoopy sounds. This station is only available in September and October
   * Christmas - Hip-hop holiday tunes. This station is only available in November, December, and January.
 
-### Current Features
-  
 
 ### Known Bugs
   * Notification De-Sync

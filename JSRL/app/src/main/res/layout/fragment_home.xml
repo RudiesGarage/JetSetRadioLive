@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@android:color/black"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/stationBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/classicwallpaper"
+        android:scaleType="fitXY"
+        android:alpha="0.5"/>
+
+    <!--  Toolbar    -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="?android:attr/actionBarSize"
+        app:contentInsetStartWithNavigation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_menu_black_24dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- TODO News alerts go here-->
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/stationBanner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/stations_banner"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <!-- Station Selection   -->
+    <LinearLayout
+        android:id="@+id/stationSelect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/prevStationButton"
+            android:layout_width="@dimen/dp_56"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:src="@drawable/prevstationbutton" />
+
+        <!-- Center part of the station select       -->
+
+
+            <!-- TODO put the station Icon down here   -->
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/stationIcon"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:paddingBottom="@dimen/dp_56"
+                android:src="@drawable/classic"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/nextStationButton"
+            android:layout_width="@dimen/dp_56"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:src="@drawable/nextstationbutton" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/stationDescription"
+        android:layout_width="match_parent"
+        android:layout_height="96dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/classic_description"
+        app:layout_constraintBottom_toBottomOf="@+id/stationSelect"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/musicTitleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/dp_16"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="@dimen/sp_24"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/stationDescription"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/musicArtistTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/dp_16"
+        android:gravity="center"
+        android:textSize="@dimen/sp_18"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/musicTitleTextView" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/playPauseImageView"
+        android:layout_width="106dp"
+        android:layout_height="105dp"
+        android:layout_marginBottom="@dimen/dp_48"
+        android:src="@drawable/playpausetoggle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/nextMusicImageView"
+        android:layout_width="82dp"
+        android:layout_height="71dp"
+        android:layout_marginStart="@dimen/dp_16"
+        android:src="@drawable/nexttrackbutton"
+        app:layout_constraintBottom_toBottomOf="@id/playPauseImageView"
+        app:layout_constraintStart_toEndOf="@id/playPauseImageView"
+        app:layout_constraintTop_toTopOf="@id/playPauseImageView" />
+
+<!--    <androidx.appcompat.widget.AppCompatImageView-->
+<!--        android:id="@+id/prevMusicImageView"-->
+<!--        android:layout_width="@dimen/dp_36"-->
+<!--        android:layout_height="@dimen/dp_36"-->
+<!--        android:layout_marginEnd="@dimen/dp_16"-->
+<!--        android:src="@drawable/ic_skip_previous_white_24dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/playPauseImageView"-->
+<!--        app:layout_constraintEnd_toStartOf="@id/playPauseImageView"-->
+<!--        app:layout_constraintTop_toTopOf="@id/playPauseImageView" />-->
+
+    <!--    SHUFFLE BUTTON -->
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/shuffleMusicImageView"
+        android:layout_width="90dp"
+        android:layout_height="73dp"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:alpha="0.5"
+        android:src="@drawable/shuffle_button"
+        app:layout_constraintBottom_toBottomOf="@id/playPauseImageView"
+        app:layout_constraintEnd_toStartOf="@id/playPauseImageView"
+        app:layout_constraintTop_toTopOf="@id/playPauseImageView" />
+
+<!--    Music Duration info   -->
+<!--    <androidx.appcompat.widget.AppCompatTextView-->
+<!--        android:id="@+id/musicDurationTextView"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginEnd="@dimen/dp_16"-->
+<!--        app:layout_constraintBottom_toTopOf="@id/playPauseImageView"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/playPauseImageView"-->
+<!--        app:layout_constraintVertical_bias="0.8"-->
+<!--        tools:text="04:00" />-->
+
+<!--    <androidx.appcompat.widget.AppCompatTextView-->
+<!--        android:id="@+id/currentPositionTextView"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="@dimen/dp_16"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="@id/musicDurationTextView"-->
+<!--        tools:text="00:01" />-->
+
+<!--    <com.example.simplemediaplayer2.widget.MediaSeekBar-->
+<!--        android:id="@+id/musicSeekBar"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/musicDurationTextView"-->
+<!--        app:layout_constraintEnd_toStartOf="@id/musicDurationTextView"-->
+<!--        app:layout_constraintStart_toEndOf="@id/currentPositionTextView"-->
+<!--        app:layout_constraintTop_toTopOf="@id/musicDurationTextView" />-->
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
