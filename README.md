@@ -21,8 +21,8 @@ Follow these [instructions](https://www.wikihow.tech/Install-APK-Files-on-Androi
 
 ### Screenshots
 
+<img src="/screenshot.jpg" alt="screenshot" style="width:50px; height=100px"/>
 
-<img src="/screenshot.jpg" alt="screenshot" style="width:500px; height=100px"/>
 
 ### Stations
   * CLASSIC - Plays the Original Jet Set Radio Soundtrack!
