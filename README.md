@@ -3,7 +3,7 @@ The Android App for [JetSetRadioLive](https://jetsetradio.live/) so even the cop
 
 
 ## Download
-You are able to download the most current version [here](https://github.com/Mcdonoughd/JetSetRadioLive/raw/master/Release/JSR-debug.apk)
+You are able to download the most current version [here](https://github.com/Mcdonoughd/JetSetRadioLive/releases/)
 
 
 ### Prerequisites
