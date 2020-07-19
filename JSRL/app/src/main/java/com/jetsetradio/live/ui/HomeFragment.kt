@@ -32,9 +32,6 @@ class HomeFragment : Fragment() {
     private var hasChannelsChanged = false
 
 
-
-
-
     // When fragment is loaded
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

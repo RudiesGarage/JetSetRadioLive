@@ -1,12 +1,15 @@
 # JetSetRadioLive Android App
 The Android App for [JetSetRadioLive](https://jetsetradio.live/) so even the cops can tune in when they're not eating donuts!
 
+
 ## Download
-You are able to download the most current version [here](https://github.com/Mcdonoughd/JetSetRadioLive/raw/master/Release/JSR-debug.apk)
+You are able to download the most current version [here](https://github.com/Mcdonoughd/JetSetRadioLive/releases/)
+
 
 ### Prerequisites
 
 Android Phone (min. API 21)
+
 
 ### Installing
 
@@ -14,6 +17,11 @@ On your Android Phone:
 
 Download the latest safe APK to your phone in the Releases Folder!
 Follow these [instructions](https://www.wikihow.tech/Install-APK-Files-on-Android)
+
+
+### Screenshots
+
+<img src="/screenshot.jpg" alt="screenshot" style="width:50px; height=100px"/>
 
 
 ### Stations
@@ -44,7 +52,8 @@ Follow these [instructions](https://www.wikihow.tech/Install-APK-Files-on-Androi
 
 
 ### Known Bugs
-  * None known
+  * Audiofocus may break on phones below version O
+
 
 ### Upcoming Features
   * JSRL Chat Connectivity
@@ -54,6 +63,7 @@ Follow these [instructions](https://www.wikihow.tech/Install-APK-Files-on-Androi
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
 
 ## Acknowledgments
 
