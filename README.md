@@ -44,7 +44,7 @@ Follow these [instructions](https://www.wikihow.tech/Install-APK-Files-on-Androi
 
 
 ### Known Bugs
-  * Improper Shuffle 
+  * None known
 
 ### Upcoming Features
   * JSRL Chat Connectivity
