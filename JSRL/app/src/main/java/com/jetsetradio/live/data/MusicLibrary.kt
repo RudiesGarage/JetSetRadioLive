@@ -4,10 +4,8 @@ import android.content.ContentResolver
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
-import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.jetsetradio.live.BuildConfig
@@ -15,50 +13,70 @@ import com.jetsetradio.live.R
 import com.jetsetradio.live.extensions.*
 import java.io.IOException
 import java.util.*
+import kotlin.collections.HashMap
 import kotlin.random.Random
 import kotlin.random.Random.Default.nextInt
 
 
 object MusicLibrary {
-    //    private val musics = TreeMap<Int, MediaMetadataCompat>()
-    //    private val albumRes = HashMap<Int, Int>()
 
     private var shuffleStation: Int = 0
-    private var shuffle: Boolean = false
-    private var currStation:Int = 1
+    private var currStation:Int = 0
     private var numstations:Int = 0
+
 
     // this holds a key int of a station to an array of metadata for each song
     private val musicMetadata = TreeMap<Int,Array<MediaMetadataCompat>>()
-//    private val albumRes = HashMap<String, Int>()
-//    private val stationDescriptions = HashMap<String, Int>()
     private val stationData = HashMap<String, IntArray>()
-
-    // this holds a key int of a station to an array of sources for each song
-//    private val musicFileNames = HashMap<Int, Array<String>>()
 
     init {
 
     }
 
+    fun getStationData(): HashMap<String, IntArray>{
+        return this.stationData
+    }
 
-    fun nextStation(){
+
+    fun getCurrStation():Int{
+        return currStation
+    }
+
+    fun getCurrStationSize(): Int? {
+        return musicMetadata[currStation]?.size
+    }
+
+    fun nextStation(): MutableList<MediaBrowserCompat.MediaItem> {
         if(currStation == numstations-1){
-            currStation = 1
+            currStation = 0
         }else{
             currStation++
         }
         shuffleStation = currStation
+
+        return this.getMediaItems()
     }
 
-    fun prevStation(){
-        if(currStation == 1){
+    fun prevStation(): MutableList<MediaBrowserCompat.MediaItem> {
+        if(currStation == 0 ){
             currStation = numstations-1
         }else{
             currStation--
         }
         shuffleStation = currStation
+        return this.getMediaItems()
     }
+
+    fun getNumStations():Int{
+        return numstations
+    }
+
+    fun anyStation(stationID: Int): MutableList<MediaBrowserCompat.MediaItem>{
+        currStation = stationID
+        shuffleStation = currStation
+        return this.getMediaItems()
+    }
+
 
     fun getJsonDataFromAsset(context: Context, fileName: String): String? {
         val jsonString: String
@@ -85,6 +103,8 @@ object MusicLibrary {
         return this
     }
 
+    //TODO load bumps separately
+    // load all music within station_reference_list.json
     fun loadJetSetRadio(context: Context){
         val jsonFileString = getJsonDataFromAsset(context, "station_reference_list.json")
         //load music library
@@ -94,11 +114,9 @@ object MusicLibrary {
 
         numstations = stationlist.size
 
-
-
         // this val holds all station image data
         val stationImageData = arrayOf(
-                intArrayOf(R.drawable.classic, R.drawable.classic_description, R.drawable.classicwallpaper),
+//                intArrayOf(R.drawable.classic, R.drawable.classic_description, R.drawable.classicwallpaper),
                 intArrayOf(R.drawable.classic, R.drawable.classic_description, R.drawable.classicwallpaper),
                 intArrayOf(R.drawable.future, R.drawable.future_description, R.drawable.futurewallpaper),
                 intArrayOf(R.drawable.ultraremixes, R.drawable.ultraremixes_description, R.drawable.ultraremixeswallpaper),
@@ -135,11 +153,10 @@ object MusicLibrary {
             songlist = songlist.shuffle()
 
             // load metadata for all songs
-            val MetadataArray =  Array<MediaMetadataCompat>(songlist.size){
-                i-> createMetadata(i,songlist.get(i),source)
+            val MetadataArray =  Array(songlist.size){
+                i-> createMetadata(i, songlist[i],source)
             }
-//            albumRes[source] = stationIcons[sourceIdx]
-//            stationDescriptions[source] = stationDesc[sourceIdx]
+
 
             stationData[source] = stationImageData[sourceIdx]
 
@@ -168,7 +185,7 @@ object MusicLibrary {
     // a helper function to create metadata of a single song
     private fun createMetadata(id:Int,song:String,station:String): MediaMetadataCompat {
         //  the song title and artist can be derived from the src
-        var artist: String = "Unknown"
+        var artist = "Unknown"
         var title: String
         // split by " - "
         val parts: Array<String> = song.split(" - ").toTypedArray()
@@ -200,76 +217,61 @@ object MusicLibrary {
 
     fun getMediaItems(): MutableList<MediaBrowserCompat.MediaItem> {
         val result = mutableListOf<MediaBrowserCompat.MediaItem>()
-        musicMetadata[currStation]?.forEach {
-            val mediaItem = MediaBrowserCompat.MediaItem(
-                    it.description, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE
-            )
-            result.add(mediaItem)
+        var i =0;
+            musicMetadata[currStation]?.forEach {
+
+                    val mediaItem = MediaBrowserCompat.MediaItem(
+                            it.description, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE
+                    )
+                    result.add(mediaItem)
+                    i++
+
+            }
+        return result
+    }
+
+    fun getAllMediaItems(): MutableList<MediaBrowserCompat.MediaItem> {
+        val result = mutableListOf<MediaBrowserCompat.MediaItem>()
+        for(i in 0..numstations){
+            musicMetadata[i]?.forEach {
+                val mediaItem = MediaBrowserCompat.MediaItem(
+                        it.description, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE
+                )
+                result.add(mediaItem)
+            }
         }
         return result
     }
 
 
 
-    fun getMusicMetadata(context: Context, songID: Int): MediaMetadataCompat? {
-        // 1/20 chance to play bump
-        when {
-            Random.nextInt(0,19) == 0 -> {
-                return musicMetadata[0]?.get(songID)?.let {
-                    val musicMetadataBuilder = MediaMetadataCompat.Builder().apply {
-                        this.id = it.id
-                        this.MEDIA_URI = it.MEDIA_URI
+    fun getMusicMetadata(stationID: Int, songID: Int): MediaMetadataCompat? {
+        return musicMetadata[stationID]?.get(songID)?.let {
+            val musicMetadataBuilder = MediaMetadataCompat.Builder().apply {
+
+                this.id = it.id
+                this.MEDIA_URI = it.MEDIA_URI
 //                        this.album = it.album
-                        this.artist = it.artist
-                        this.genre = it.genre
-                        this.title = it.title
+                this.artist = it.artist
+                // make sure the  stays in the current station
+                this.genre = musicMetadata[currStation]?.get(0)?.genre ?: it.genre
+                this.title = it.title
 //                this.duration = it.duration
 //                getAlbumBitmap(context, musicId)?.also { albumArt -> this.albumArt = albumArt }
-                    }
-                    musicMetadataBuilder.build()
-                }
             }
-            shuffle -> {
-                val randStation = nextInt(1, numstations)
-
-                currStation = randStation
-                shuffleStation = randStation
-
-                val newsong = musicMetadata[currStation]?.size?.let { nextInt(0, it) }
-                return newsong?.let {
-                    musicMetadata[currStation]?.get(it)?.let {
-                        val musicMetadataBuilder = MediaMetadataCompat.Builder().apply {
-                            this.id = it.id
-        //                        this.album = it.album
-                            this.artist = it.artist
-                            this.MEDIA_URI = it.MEDIA_URI
-        //                        this.albumArtUri = it.albumArtUri.toString()
-                            this.genre = it.genre
-                            this.title = it.title
-        //                this.duration = it.duration
-        //                getAlbumBitmap(context, musicId)?.also { albumArt -> this.albumArt = albumArt }
-                        }
-                        musicMetadataBuilder.build()
-                    }
-                }
-            }
-            else -> {
-                return musicMetadata[currStation]?.get(songID)?.let {
-                    val musicMetadataBuilder = MediaMetadataCompat.Builder().apply {
-                        this.id = it.id
-//                        this.album = it.album
-                        this.artist = it.artist
-                        this.MEDIA_URI = it.MEDIA_URI
-//                        this.albumArtUri = it.albumArtUri.toString()
-                        this.genre = it.genre
-                        this.title = it.title
-//                this.duration = it.duration
-//                getAlbumBitmap(context, musicId)?.also { albumArt -> this.albumArt = albumArt }
-                    }
-                    musicMetadataBuilder.build()
-                }
-            }
+            musicMetadataBuilder.build()
         }
+    }
+
+    fun getRandomSong():MediaMetadataCompat?{
+        val newsonglist = nextStation() //we only get the next station due to a bug in the slider that causes it to freakout if it jumps to far ahead
+        val randsong = newsonglist.size.minus(1).let { nextInt(0, it) }
+        return getMusicMetadata(currStation, randsong)
+    }
+
+    fun getMusicMetadata(songID: Int): MediaMetadataCompat? {
+        return getMusicMetadata(currStation,songID)
+
     }
 
 
@@ -284,13 +286,6 @@ object MusicLibrary {
         return musicMetadata[currStation]?.size
     }
 
-    fun getShuffle(): Boolean{
-        return this.shuffle
-    }
-
-    fun setShuffle(shuffle: Boolean){
-        this.shuffle = shuffle
-    }
 
 
 }

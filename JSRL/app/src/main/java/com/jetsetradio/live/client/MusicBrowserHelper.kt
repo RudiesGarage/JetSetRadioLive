@@ -10,18 +10,15 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import androidx.media.MediaBrowserServiceCompat
 
-/**
- * Create on 3/12/19 by Sang
- * Description:
- **/
+
 abstract class MusicBrowserHelper<T : MediaBrowserServiceCompat>(
     private val context: Context, private val serviceClass: Class<T>
 ) {
 
     private val callbacks = mutableListOf<MediaControllerCompat.Callback>()
-
     var mediaController: MediaControllerCompat? = null
     private var mediaBrowser: MediaBrowserCompat? = null
+
 
 
     private val mediaBrowserConnectionCallback = object : MediaBrowserCompat.ConnectionCallback() {
@@ -41,7 +38,11 @@ abstract class MusicBrowserHelper<T : MediaBrowserServiceCompat>(
         override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
             super.onMetadataChanged(metadata)
             handleCallbacks { onMetadataChanged(metadata) }
+        }
 
+        override fun onShuffleModeChanged(shuffleMode: Int) {
+            super.onShuffleModeChanged(shuffleMode)
+            handleCallbacks { onShuffleModeChanged(shuffleMode) }
         }
 
         override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
@@ -102,9 +103,8 @@ abstract class MusicBrowserHelper<T : MediaBrowserServiceCompat>(
 
     abstract fun onDisconnected()
 
-    abstract fun onChildrenLoaded(
-        parentId: String, children: MutableList<MediaBrowserCompat.MediaItem>
-    )
+    abstract fun onChildrenLoaded(parentId: String, children: MutableList<MediaBrowserCompat.MediaItem>)
+
 
 
 }

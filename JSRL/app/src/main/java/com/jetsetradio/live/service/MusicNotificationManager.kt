@@ -76,7 +76,6 @@ class MusicNotificationManager(private val service: MusicService) {
         if (state.isShuffleEnabled) {
             builder.addAction(shuffleAction)
         }
-
         if (state.isPlaying) {
             builder.addAction(pauseAction)
         } else if (state.isPlayEnabled) {

@@ -11,10 +11,8 @@ import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
 import androidx.appcompat.widget.AppCompatSeekBar
 
-/**
- * Created on 3/13/19 by Sang
- * Description:
- **/
+
+
 class MediaSeekBar : AppCompatSeekBar {
 
     private var isTracking = false

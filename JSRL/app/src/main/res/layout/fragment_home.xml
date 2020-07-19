@@ -23,8 +23,9 @@
         app:contentInsetStartWithNavigation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_menu_black_24dp">
+        app:layout_constraintTop_toTopOf="parent">
+<!--        app:navigationIcon="@drawable/ic_menu_black_24dp"-->
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -44,7 +45,7 @@
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 
-    <!-- Station Selection   -->
+    <!-- Station Selection  -->
     <LinearLayout
         android:id="@+id/stationSelect"
         android:layout_width="match_parent"
@@ -59,23 +60,34 @@
             android:layout_weight="0"
             android:src="@drawable/prevstationbutton" />
 
-        <!-- Center part of the station select       -->
+        <!-- Center part of the station select -->
 
+        <com.gigamole.infinitecycleviewpager.HorizontalInfiniteCycleViewPager
+            android:id="@+id/stationIconSlider"
+            android:layout_width="fill_parent"
+            android:layout_height="300dp"
+            android:layout_weight="1"
+            android:scaleType="fitXY"
+            app:icvp_interpolator="@android:anim/accelerate_decelerate_interpolator"
+            app:icvp_scroll_duration="250"
+            app:icvp_center_page_scale_offset="30dp"
+            app:icvp_min_page_scale_offset="5dp"
+            app:icvp_max_page_scale="0.8"
+            app:icvp_medium_scaled="true"
+            app:icvp_min_page_scale="0"
 
-            <!-- TODO put the station Icon down here   -->
+            />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/stationIcon"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:paddingBottom="@dimen/dp_56"
-                android:src="@drawable/classic"
-                app:layout_constraintStart_toStartOf="parent"
-                />
-
-
+<!--            <androidx.appcompat.widget.AppCompatImageView-->
+<!--                android:id="@+id/stationIcon"-->
+<!--                android:layout_width="fill_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:adjustViewBounds="true"-->
+<!--                android:paddingBottom="@dimen/dp_56"-->
+<!--                android:src="@drawable/classic"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                />-->
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/nextStationButton"
@@ -83,7 +95,6 @@
             android:layout_height="match_parent"
             android:layout_weight="0"
             android:src="@drawable/nextstationbutton" />
-
     </LinearLayout>
 
     <ImageView
@@ -121,7 +132,7 @@
         android:layout_width="106dp"
         android:layout_height="105dp"
         android:layout_marginBottom="@dimen/dp_48"
-        android:src="@drawable/playpausetoggle"
+        android:src="@drawable/playtrackbutton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

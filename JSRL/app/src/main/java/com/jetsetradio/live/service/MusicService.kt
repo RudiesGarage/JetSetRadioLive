@@ -12,17 +12,24 @@ import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.media.MediaBrowserServiceCompat
+import com.jetsetradio.live.R
 import com.jetsetradio.live.data.MusicLibrary
 import kotlin.random.Random
+import kotlin.random.Random.Default.nextInt
 
-/**
- * Create on 3/12/19 by Sang
- * Description:
- **/
+
+const val CUSTOM_ACTION_STATION_NEXT = "Station_Next"
+const val CUSTOM_ACTION_CURRENT_SONG = "Music_Current"
+const val CUSTOM_ACTION_MUSIC_NEXT = "Music_Next"
+const val CUSTOM_ACTION_MUSIC_PLAY_PAUSE = "Music_Play_Pause"
+const val CUSTOM_ACTION_SHUFFLE = "Station_Shuffle"
+const val CUSTOM_ACTION_STATION_PREV = "Station_Prev"
+const val CUSTOM_ACTION_STATION_SET = "Station_Set"
+const val BUNDLE_UUID_KEY = "uuid"
 
 class MusicService : MediaBrowserServiceCompat() {
-
     private var isServiceInStartedState = false
+    private var isShuffle = false;
     private lateinit var musicSession: MediaSessionCompat
     private lateinit var playback: MusicPlayerAdapter
     private lateinit var musicNotificationManager: MusicNotificationManager
@@ -48,9 +55,10 @@ class MusicService : MediaBrowserServiceCompat() {
             musicSession.setPlaybackState(this) // Update current playback state.
             when (state) {
                 PlaybackStateCompat.STATE_PLAYING -> moveNotificationToStartedState(this)
+                PlaybackStateCompat.STATE_SKIPPING_TO_NEXT -> moveNotificationToStartedState(this)
                 PlaybackStateCompat.STATE_PAUSED -> updateNotificationWhenStatePaused(this)
                 PlaybackStateCompat.STATE_STOPPED -> stopServiceWhenStateStopped()
-           }
+            }
         }
 
         val completionStateChange: MediaMetadataCompat.() -> Unit = {
@@ -60,6 +68,7 @@ class MusicService : MediaBrowserServiceCompat() {
         playback = MusicPlayerAdapter(context = this, playbackStateChange = playbackStateChange,playbackComplete = completionStateChange)
 
     }
+
 
     private fun moveNotificationToStartedState(playbackState: PlaybackStateCompat) {
         if (isServiceInStartedState.not()) {
@@ -93,15 +102,13 @@ class MusicService : MediaBrowserServiceCompat() {
         isServiceInStartedState = false
     }
 
-    override fun onLoadChildren(
-            parentId: String, result: Result<MutableList<MediaBrowserCompat.MediaItem>>
-    ) {
+
+
+    override fun onLoadChildren(parentId: String, result: Result<MutableList<MediaBrowserCompat.MediaItem>>) {
         result.sendResult(MusicLibrary.getMediaItems())
     }
 
-    override fun onGetRoot(
-            clientPackageName: String, clientUid: Int, rootHints: Bundle?
-    ): BrowserRoot? {
+    override fun onGetRoot(clientPackageName: String, clientUid: Int, rootHints: Bundle?): BrowserRoot? {
         return BrowserRoot(MusicLibrary.getRoot(), null)
     }
 
@@ -110,11 +117,9 @@ class MusicService : MediaBrowserServiceCompat() {
     }
 
     private inner class MusicSessionCallback : MediaSessionCompat.Callback() {
-
-        private var playedItemIndex: Int = -1
-        private val playList = mutableListOf<MediaSessionCompat.QueueItem>()
-
-        private var prepareMusicMetadata: MediaMetadataCompat? = null
+        private var playedItemIndex: Int = -1 // Current song index in queue
+        private val playList = mutableListOf<MediaSessionCompat.QueueItem>() // A "cache" of current songs
+        private var prepareMusicMetadata: MediaMetadataCompat? = null // Current Song
 
         override fun onAddQueueItem(description: MediaDescriptionCompat?) {
             super.onAddQueueItem(description)
@@ -151,9 +156,8 @@ class MusicService : MediaBrowserServiceCompat() {
             if (playedItemIndex < 0 || playList.isEmpty()) {
                 return
             }
-//            val musicId = playList[playedItemIndex].description.mediaId ?: return
-            prepareMusicMetadata =
-                    MusicLibrary.getMusicMetadata(this@MusicService, playedItemIndex)
+
+            prepareMusicMetadata = MusicLibrary.getMusicMetadata(playedItemIndex)
             musicSession.setMetadata(prepareMusicMetadata)
             if (musicSession.isActive.not()) {
                 musicSession.isActive = true
@@ -181,34 +185,164 @@ class MusicService : MediaBrowserServiceCompat() {
             playback.seekTo(pos)
         }
 
+        // Handle Skip to next song request
         override fun onSkipToNext() {
             super.onSkipToNext()
-            playedItemIndex = if (playedItemIndex < MusicLibrary.getNumSongs()?.minus(1) ?:0 ) {
-                playedItemIndex + 1
-            } else {
-                0
+            if(isShuffle){
+                //when shuffle is active we only get the next song due to a bug in the slider
+                val action = CUSTOM_ACTION_STATION_NEXT
+                onCustomAction(action, null)
+            }else {
+                playedItemIndex = if (playedItemIndex < MusicLibrary.getNumSongs()?.minus(1) ?: 0) {
+                    playedItemIndex + 1
+                } else {
+                    0
+                }
             }
             prepareMusicMetadata = null
             onPlay()
         }
 
-        // todo make skip station its own state
-        // todo update playlist to new station size
-        fun onSkiptoNextStation(){
-//            playList.
-        }
-
-
+        // Handle Skip to previous song request
         override fun onSkipToPrevious() {
             super.onSkipToPrevious()
-            playedItemIndex = if (playedItemIndex > 0) {
-                playedItemIndex - 1
-            } else {
-                playList.size - 1 // Index = 0, start the last media.
+            if(isShuffle){
+                //when shuffle is active we only get the next song due to a bug in the slider on getting a random position
+                val action = CUSTOM_ACTION_STATION_PREV
+                onCustomAction(action, null)
+            }
+            else{
+                playedItemIndex = if (playedItemIndex > 0) {
+                    playedItemIndex - 1
+                } else {
+                    playList.size - 1 // Index = 0, start the last media.
+                }
             }
             prepareMusicMetadata = null
             onPlay()
         }
+
+        // Custom Actions AKA STATION Handling
+        override fun onCustomAction(action: String?, extras: Bundle?) {
+            super.onCustomAction(action, extras)
+
+            when(action){
+                // Next Station
+                CUSTOM_ACTION_STATION_NEXT -> {
+
+                    MusicLibrary.nextStation()
+
+                    playedItemIndex == 0
+                    playList.clear()
+
+                    val temp = MusicLibrary.getMediaItems()
+
+                    if(isShuffle){
+                        playedItemIndex = nextInt(0,temp.size-1)
+                    }
+
+                    if(temp.size>=30){
+                        for(i in 0 until 30){
+                            onAddQueueItem(temp[i].description)
+                        }
+                    }
+                    else{
+                        for(i in 0 until temp.size){
+                            onAddQueueItem(temp[i].description)
+                        }
+                    }
+
+                    prepareMusicMetadata = null
+                    onPause()
+                    musicSession.isActive = false
+                    onPrepare()
+
+                }
+                // Get Previous Station
+                CUSTOM_ACTION_STATION_PREV -> {
+
+                    //Clear the playlist
+                    playedItemIndex == 0
+                    playList.clear()
+
+
+                    // fetch the previous station data
+                    val temp = MusicLibrary.prevStation()
+                    if(isShuffle){
+                        playedItemIndex = nextInt(0,temp.size-1)
+                    }
+                    // if the station is too large only load 30 songs
+                    if(temp.size>=30){
+                        for(i in 0 until 30){
+                            onAddQueueItem(temp[i].description)
+                        }
+                    }
+                    // otherwise load all the songs
+                    else{
+                        for(i in 0 until temp.size){
+                            onAddQueueItem(temp[i].description)
+                        }
+                    }
+
+                    // clear the current song
+                    prepareMusicMetadata = null
+                    onPause()
+
+                    musicSession.isActive = false
+
+                    // prep the new station
+                    onPrepare()
+                }
+                CUSTOM_ACTION_STATION_SET ->{
+                    //Clear the playlist
+                    playedItemIndex == 0
+                    playList.clear()
+
+                    val station = extras?.getInt("STATION_POSITION")
+
+                    // fetch the previous station data
+                    val temp = station?.let { MusicLibrary.anyStation(it) }
+
+                    // if the station is too large only load 30 songs
+                    if (temp != null) {
+                        if (!this.playList.isNullOrEmpty()) {
+                            this.playList.forEach { onRemoveQueueItem(it.description) }
+                        }
+                        if(isShuffle){
+                            playedItemIndex = nextInt(0,temp.size-1)
+                        }
+
+                        if(temp.size>=30){
+                            for(i in 0 until 30){
+                                onAddQueueItem(temp[i].description)
+                            }
+                        }
+                        // otherwise load all the songs
+                        else{
+                            for(i in 0 until temp.size){
+                                onAddQueueItem(temp[i].description)
+                            }
+                        }
+                    }
+
+                    // clear the current song
+                    prepareMusicMetadata = null
+                    onPause()
+
+                    musicSession.isActive = false
+
+                    // prep the new station
+                    onPrepare()
+                }
+                CUSTOM_ACTION_SHUFFLE -> {
+                    isShuffle = !isShuffle
+
+                }
+            }
+
+        }
+
+
     }
 }
 
