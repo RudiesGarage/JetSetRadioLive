@@ -21,7 +21,9 @@ Follow these [instructions](https://www.wikihow.tech/Install-APK-Files-on-Androi
 
 ### Screenshots
 
-<img src="/screenshot.jpg" alt="screenshot" align="left" height="100" width="50"/>
+<img src="/screenshot.jpg" alt="screenshot" align="left" height="300" width="150"/>
+
+
 
 
 ### Stations
