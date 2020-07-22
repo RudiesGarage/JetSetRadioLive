@@ -327,7 +327,7 @@ class HomeFragment : Fragment() {
 
     private fun loadSlider() {
 
-        //TODO move the icons here 
+        //TODO move the icons here
         //Get all station Icons
         val stationIconList: MutableList<Int> = arrayListOf();
 
