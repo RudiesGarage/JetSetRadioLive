@@ -21,7 +21,7 @@ Follow these [instructions](https://www.wikihow.tech/Install-APK-Files-on-Androi
 
 ### Screenshots
 
-<img src="/screenshot.jpg" alt="screenshot" align="left" height="300" width="150"/>
+<img src="/screenshot.jpg" alt="screenshot"  height="300" width="150"/>
 
 
 
