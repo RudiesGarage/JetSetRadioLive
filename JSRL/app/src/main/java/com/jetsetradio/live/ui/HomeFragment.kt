@@ -318,8 +318,7 @@ class HomeFragment : Fragment() {
         fun newInstance() = HomeFragment()
     }
 
-    //TODO get mediaplayer state not button state
-    // this function is not normally in a fragment so it is called from the main activity
+
     fun onWindowFocusChange(){
         showPlayStateChanged(musicBrowserHelper.mediaController?.playbackState)
 //        playPauseImageView.isPressed = isPlaying
@@ -327,33 +326,15 @@ class HomeFragment : Fragment() {
 
 
     private fun loadSlider() {
-        val stationIconList: List<Int> = listOf(
-                R.drawable.classic,
-                R.drawable.future,
-                R.drawable.ultraremixes,
-                R.drawable.lofi,
-                R.drawable.ggs,
-                R.drawable.noisetanks,
-                R.drawable.poisonjam,
-                R.drawable.rapid99,
-                R.drawable.loveshockers,
-                R.drawable.immortals,
-                R.drawable.doomriders,
-                R.drawable.goldenrhinos,
-                R.drawable.memoriesoftokyoto,
-                R.drawable.kingforanotherday,
-                R.drawable.ollieking,
-                R.drawable.toejamandearl,
-                R.drawable.crazytaxi,
-                R.drawable.hover,
-                R.drawable.butterflies,
-                R.drawable.elaquent,
-                R.drawable.revolution,
-                R.drawable.endofdays,
-                R.drawable.summer,
-                R.drawable.halloween,
-                R.drawable.christmas
-        )
+
+        //TODO move the icons here 
+        //Get all station Icons
+        val stationIconList: MutableList<Int> = arrayListOf();
+
+        for(index in MusicLibrary.stationImageData){
+            stationIconList.add(index[0])
+        }
+
         stationIconSlider.adapter = context?.let { SliderAdapter(it, stationIconList) }
         stationIconSlider.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {}
@@ -361,7 +342,8 @@ class HomeFragment : Fragment() {
             override fun onPageSelected(position: Int) {
                 // IF this is enabled...
                 if(!handleSliderListenerDisable){
-                    var stationConversionTemp = (position - 5000000)
+                    var stationConversionTemp = (position - 4999977)
+                    val tet= stationConversionTemp
                     when {
                         stationConversionTemp < 0 -> {
                             val temp = MusicLibrary.getNumStations()
@@ -388,11 +370,9 @@ class HomeFragment : Fragment() {
     private fun loadPlaystateImage(isPlaying: Boolean){
         if(isPlaying){
             playPauseImageView.setImageResource(R.drawable.pausetrackbutton)
-//            playPauseImageView.setBackgroundResource(R.drawable.pausetrackbutton)
         }
         else{
             playPauseImageView.setImageResource(R.drawable.playtrackbutton)
-//            playPauseImageView.setBackgroundResource(R.drawable.playtrackbutton)
         }
     }
 

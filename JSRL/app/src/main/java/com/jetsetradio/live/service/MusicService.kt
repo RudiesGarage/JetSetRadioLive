@@ -300,7 +300,7 @@ class MusicService : MediaBrowserServiceCompat() {
 
                     val station = extras?.getInt("STATION_POSITION")
 
-                    // fetch the previous station data
+                    // fetch the station data
                     val temp = station?.let { MusicLibrary.anyStation(it) }
 
                     // if the station is too large only load 30 songs
