@@ -21,7 +21,9 @@ Follow these [instructions](https://www.wikihow.tech/Install-APK-Files-on-Androi
 
 ### Screenshots
 
-<img src="/screenshot.jpg" alt="screenshot" style="width:50px; height=100px"/>
+<img src="/screenshot.jpg" alt="screenshot"  height="300" width="150"/>
+
+
 
 
 ### Stations
@@ -35,7 +37,6 @@ Follow these [instructions](https://www.wikihow.tech/Install-APK-Files-on-Androi
   * THE IMMORTALS - Ethnic music & Balkan beats!
   * DOOM RIDERS - Biker music & classic rock!
   * GOLDEN RHINOS - Hip-Hop beats with deep classical rhythms of power and authority!
-  * King for Another Day - All the songs featured in the King for another Day tournament by the Silva Gunner team 
   * Revolution - Songs to protest to.
   * Hover - The OST from the game [Hover](https://store.steampowered.com/app/280180/Hover/)
   * Butteflies - The Ost from the game [Butterflies](https://le-capitaine.itch.io/butterflies-episode-1)
@@ -49,6 +50,11 @@ Follow these [instructions](https://www.wikihow.tech/Install-APK-Files-on-Androi
   * Summer - Chill Summer tunes. This station is only available from May to August
   * Halloween - Spoopy sounds. This station is only available in September and October
   * Christmas - Hip-hop holiday tunes. This station is only available in November, December, and January.
+  * King for Another Day - All the songs featured in the King for another Day tournament and livestream by the SilvaGunner team
+  * Future Generation - JSRF tribute album by [Sashko Naganuma](https://soundcloud.com/highraiser/sets/mfjsrfg)
+  * JetMashRadio - Various Mashups of JSR Tracks!
+  * DJChidow - JSR remixes by [DJ Chidow](https://www.youtube.com/channel/UCOo9h1giPjMizVrgDuLAV4w)
+  * Ganjah - Regge beats to chill, relax & reflex
 
 
 ### Known Bugs
