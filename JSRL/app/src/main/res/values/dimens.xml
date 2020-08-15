@@ -11,4 +11,6 @@
     <dimen name="sp_15">15sp</dimen>
     <dimen name="sp_18">18sp</dimen>
     <dimen name="sp_24">24sp</dimen>
+    <dimen name="padding_default">10dp</dimen>
+    <dimen name="dp_50">50dp</dimen>
 </resources>

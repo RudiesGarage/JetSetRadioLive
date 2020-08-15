@@ -9,4 +9,6 @@
     <string name="shuffle_action_label">Shuffle</string>
     <!-- Menu -->
     <string name="action_menu_label">Menu</string>
+    <string name="Open_Drawer">Menu Opened</string>
+    <string name="Close_Drawer">Menu Closed</string>
 </resources>

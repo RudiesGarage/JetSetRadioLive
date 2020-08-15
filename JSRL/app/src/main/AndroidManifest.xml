@@ -26,7 +26,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity"/>
-
+<!--        <receiver android:name=".MainActivity">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.HEADSET_PLUG"/>-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
         <service android:name=".service.MusicService">
             <intent-filter>
                 <action android:name="android.media.browse.MediaBrowserService" />

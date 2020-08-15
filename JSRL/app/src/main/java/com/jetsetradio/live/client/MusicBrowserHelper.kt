@@ -29,7 +29,7 @@ abstract class MusicBrowserHelper<T : MediaBrowserServiceCompat>(
                 registerCallback(mediaControllerCallback)
                 this@MusicBrowserHelper.onConnected(this)
             }
-            Log.d("Test_tag", "token: ${mediaBrowser?.sessionToken} - $musicToken")
+            Log.d("MediaSession", "token: ${mediaBrowser?.sessionToken} - $musicToken")
             mediaBrowser?.apply { subscribe(root, mediaSubscriptionCallback) }
         }
     }

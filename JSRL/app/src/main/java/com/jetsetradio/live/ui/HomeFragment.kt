@@ -1,15 +1,15 @@
 package com.jetsetradio.live.ui
 
-import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import android.util.Log
 import android.view.*
 import android.widget.Toast
-import androidx.annotation.RequiresApi
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
@@ -19,14 +19,12 @@ import com.jetsetradio.live.client.MusicBrowserHelper
 import com.jetsetradio.live.data.MusicLibrary
 import com.jetsetradio.live.service.*
 import kotlinx.android.synthetic.main.fragment_home.*
-import java.lang.Math.abs
 
 
 // this is the home fragment that has the main radio functionality
 class HomeFragment : Fragment() {
     private var isPlaying: Boolean = false
     private var isShuffle: Boolean = false
-
     private lateinit var musicBrowserHelper: MusicBrowserHelper<MusicService>
     private var mLastClickTime: Long = 0
     private var hasChannelsChanged = false
@@ -35,9 +33,6 @@ class HomeFragment : Fragment() {
     // When fragment is loaded
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        //setHasOptionsMenu(true)
-        context?.let { MusicLibrary.loadJetSetRadio(it) }
     }
 
     // load all view assets
@@ -50,11 +45,15 @@ class HomeFragment : Fragment() {
     // set up Data to run activity
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        activity?.apply {
-            if (this is AppCompatActivity) {
-                setSupportActionBar(toolbar)
-            }
-        }
+//        activity?.apply {
+//            if (this is AppCompatActivity) {
+////                setSupportActionBar(toolbar)
+////
+////                val toggle: ActionBarDrawerToggle = ActionBarDrawerToggle(this,drawer_layout,toolbar,R.string.Open_Drawer,R.string.Close_Drawer)
+////                drawer_layout.addDrawerListener(toggle)
+////                toggle.syncState()
+//            }
+//        }
         //load icon slider
         loadSlider()
         setupClient()
@@ -63,6 +62,9 @@ class HomeFragment : Fragment() {
 
     // Set up the media client that handles messages from the music service
     private fun setupClient() {
+
+
+
 
         // create a musicControllerCallback  for the musicBrowserHelper
         val musicControllerCallback = object : MediaControllerCompat.Callback() {
@@ -88,6 +90,7 @@ class HomeFragment : Fragment() {
                     // Update UI on reconnection
                     if(mediaController.metadata != null){
                         Toast.makeText(context, "Welcome Back!", Toast.LENGTH_SHORT).show()
+                        Log.d("HOME FRAGMENT", "HomeFragment Reloaded")
 //                        playPauseImageView.isPressed = isPlaying
                         loadPlaystateImage(isPlaying)
                         musicTitleTextView.text =  mediaController.metadata.description.title
@@ -112,7 +115,8 @@ class HomeFragment : Fragment() {
 //                            this.queue.forEach{removeQueueItem(it.description)}
 //                        }
                         if(this.queue.isNullOrEmpty()){
-                            children.forEach { addQueueItem(it.description) }
+                            children.forEach {
+                                addQueueItem(it.description) }
                         }
                         transportControls.prepare()
                     }
@@ -143,16 +147,10 @@ class HomeFragment : Fragment() {
 //                getLong(MediaMetadataCompat.METADATA_KEY_DURATION).toTimeString("mm:ss")
 
             context?.apply {
-
-                val stationImages = MusicLibrary.getStationBitmaps( this, getString(MediaMetadataCompat.METADATA_KEY_GENRE))
-
-                val descImage = stationImages?.get(1)
-                // set station description
-                stationDescription.setImageBitmap(descImage)
-
-                val bgImage = stationImages?.get(2)
                 // set station bg
-                stationBackground.setImageBitmap(bgImage)
+                if(getString(MediaMetadataCompat.METADATA_KEY_GENRE) != "bump"){
+                    stationBackground.setImageBitmap(MusicLibrary.getStationBackgroundBitmap( this, getString(MediaMetadataCompat.METADATA_KEY_GENRE).toInt() ))
+                }
             }
         }
     }
@@ -178,6 +176,33 @@ class HomeFragment : Fragment() {
 //                    playPauseImageView.isPressed = isPlaying
                 }
 
+                PlaybackStateCompat.STATE_BUFFERING -> {
+                    TODO()
+                }
+                PlaybackStateCompat.STATE_CONNECTING -> {
+                    TODO()
+                }
+                PlaybackStateCompat.STATE_ERROR -> {
+                    TODO()
+                }
+                PlaybackStateCompat.STATE_FAST_FORWARDING -> {
+                    TODO()
+                }
+                PlaybackStateCompat.STATE_NONE -> {
+                    TODO()
+                }
+                PlaybackStateCompat.STATE_REWINDING -> {
+                    TODO()
+                }
+                PlaybackStateCompat.STATE_SKIPPING_TO_PREVIOUS -> {
+                    TODO()
+                }
+                PlaybackStateCompat.STATE_SKIPPING_TO_QUEUE_ITEM -> {
+                    TODO()
+                }
+                PlaybackStateCompat.STATE_STOPPED -> {
+                    TODO()
+                }
             }
         }
     }
@@ -186,9 +211,6 @@ class HomeFragment : Fragment() {
 
     // Set up event/click listeners (button handling)
     private fun setupEvents() {
-
-
-
 
         // Next SONG Button
         nextMusicImageView.setOnClickListener {
@@ -204,21 +226,19 @@ class HomeFragment : Fragment() {
 
 
         //  Shuffle Button
-        //TODO make proper CUSTOM_ACTION CALLS
         shuffleMusicImageView.setOnClickListener {
             if(!isShuffle) {
+                // make button fully visable
                 shuffleMusicImageView.alpha = 1.0F
                 isShuffle = true
-                musicBrowserHelper.mediaController?.transportControls?.sendCustomAction(CUSTOM_ACTION_SHUFFLE,null)
-
-//                MusicLibrary.setShuffle(true)
             }
             else{
+                //make button opaque
                 shuffleMusicImageView.alpha = 0.5F
                 isShuffle = false
-                musicBrowserHelper.mediaController?.transportControls?.sendCustomAction(CUSTOM_ACTION_SHUFFLE,null)
-//                MusicLibrary.setShuffle(false)
             }
+            // Run the shuffle intent
+            musicBrowserHelper.mediaController?.transportControls?.sendCustomAction(CUSTOM_ACTION_SHUFFLE,null)
         }
 
         // Play / Pause Button
@@ -286,6 +306,7 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         loadPlaystateImage(isPlaying)
+
 //        playPauseImageView.isPressed = isPlaying
     }
 
@@ -298,44 +319,33 @@ class HomeFragment : Fragment() {
     override fun onStop() {
         super.onStop()
 //        super.onStop()
-//        musicBrowserHelper.onStop()
+        musicBrowserHelper.onStop()
 //        musicSeekBar.disconnectMediaController()
-    }
-
-    // load menu options
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_home_option, menu)
-    }
-
-    // Handle on Menu select
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // todo make settings
-        view?.apply { Snackbar.make(this, "Menu clicked", Snackbar.LENGTH_SHORT).show() }
-        return true
-    }
-
-    companion object {
-        fun newInstance() = HomeFragment()
     }
 
 
     fun onWindowFocusChange(){
         showPlayStateChanged(musicBrowserHelper.mediaController?.playbackState)
-//        playPauseImageView.isPressed = isPlaying
+
+        //stationIconSlider.currentItem = MusicLibrary.getCurrStation()
+        loadPlaystateImage(isPlaying)
+    }
+
+    fun onStationQuickSelect(position:Int){
+        showPlayStateChanged(musicBrowserHelper.mediaController?.playbackState)
+        stationIconSlider.currentItem = position
+        loadPlaystateImage(isPlaying)
     }
 
 
     private fun loadSlider() {
 
-        //TODO move the icons here
         //Get all station Icons
-        val stationIconList: MutableList<Int> = arrayListOf();
+        val stationIconList: ArrayList<ArrayList<Int>> = MusicLibrary.getStationData().getAllIcons()
 
-        for(index in MusicLibrary.stationImageData){
-            stationIconList.add(index[0])
-        }
+        stationIconSlider.adapter = context?.let { SliderAdapter(it, stationIconList,activity) }
 
-        stationIconSlider.adapter = context?.let { SliderAdapter(it, stationIconList) }
+
         stationIconSlider.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {}
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
@@ -343,7 +353,6 @@ class HomeFragment : Fragment() {
                 // IF this is enabled...
                 if(!handleSliderListenerDisable){
                     var stationConversionTemp = (position - 4999977)
-                    val tet= stationConversionTemp
                     when {
                         stationConversionTemp < 0 -> {
                             val temp = MusicLibrary.getNumStations()
@@ -376,6 +385,17 @@ class HomeFragment : Fragment() {
         }
     }
 
+
+    fun handleHeadphonePlugging(Microphone_Plugged_in:Boolean){
+        if(Microphone_Plugged_in){
+            if(isPlaying){
+                musicBrowserHelper.mediaController?.transportControls?.play()
+            }
+        }
+        else{
+            musicBrowserHelper.mediaController?.transportControls?.pause()
+        }
+    }
 }
 
 
