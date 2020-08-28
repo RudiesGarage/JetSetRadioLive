@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,117 +10,40 @@
     android:clickable="true"
     android:focusable="true">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:layout_width="wrap_content"
+
+
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/sendMessage"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="@+id/parentcontainer"
-        app:layout_constraintStart_toStartOf="@+id/parentcontainer"
-        android:text="v0.0.0.1 - by D.E.M."
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/sendButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Enter Message"
+        android:layout_margin="8dp"
+        android:layout_width="0dp" />
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="39dp"
-        tools:layout_editor_absoluteY="305dp"
-        android:padding="@dimen/dp_50">
-
-
-
-
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/dp_75"
-                android:text="UserName: " />
-
-            <EditText
-                android:id="@+id/usernameInput"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAlignment="textStart"
-                android:maxLength="20"
-                android:hint="Chat Username"
-                android:singleLine="true"
-                android:imeOptions="actionDone"
-                android:inputType="textCapSentences|textAutoCorrect"
-                android:outlineAmbientShadowColor="@color/black"
-                style="@style/EditText">
-<!--                <requestFocus/>-->
-            </EditText>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/sendButton"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_50"
+        android:layout_margin="8dp"
+        android:layout_marginEnd="323dp"
+        android:text="Send"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/dp_75"
-                android:text="Chat Notifications: "
-                android:layout_weight="1"/>
-
-            <Switch
-                android:id="@+id/chatSwitch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:checked="true"
-                android:gravity="center"
-                android:textColor="#f00"
-                android:textOff="Off"
-                android:textOn="On"
-                android:textSize="25sp" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/dp_75"
-
-                android:layout_weight="1"
-                android:text="Play Bumps: " />
-
-            <Switch
-                android:id="@+id/bumpsSwitch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:checked="true"
-                android:gravity="center"
-                android:textColor="#f00"
-                android:textOff="Off"
-                android:textOn="On"
-                android:textSize="25sp" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:text="Thank you to SEGA, Hideki Naganuma, the Jet Set Radio Community, and you!" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/dp_16"
+        app:layout_constraintBottom_toTopOf="@+id/sendMessage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>
