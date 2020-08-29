@@ -1,5 +1,6 @@
 package com.jetsetradio.live.ui
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.SystemClock
 import android.support.v4.media.MediaBrowserCompat
@@ -19,6 +20,7 @@ import com.jetsetradio.live.client.MusicBrowserHelper
 import com.jetsetradio.live.data.MusicLibrary
 import com.jetsetradio.live.service.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlin.random.Random
 
 
 // this is the home fragment that has the main radio functionality
@@ -28,6 +30,13 @@ class HomeFragment : Fragment() {
     private lateinit var musicBrowserHelper: MusicBrowserHelper<MusicService>
     private var mLastClickTime: Long = 0
     private var hasChannelsChanged = false
+    private var PRIVATE_MODE = 0
+    private val SETTINGS_NAME = "JSR SETTINGS"
+    private var sharedPref: SharedPreferences? = null
+    private val LAST_STATION = "LastStation"
+    var handleSliderListenerDisable:Boolean = false
+
+
 
 
     // When fragment is loaded
@@ -45,24 +54,18 @@ class HomeFragment : Fragment() {
     // set up Data to run activity
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-//        activity?.apply {
-//            if (this is AppCompatActivity) {
-////                setSupportActionBar(toolbar)
-////
-////                val toggle: ActionBarDrawerToggle = ActionBarDrawerToggle(this,drawer_layout,toolbar,R.string.Open_Drawer,R.string.Close_Drawer)
-////                drawer_layout.addDrawerListener(toggle)
-////                toggle.syncState()
-//            }
-//        }
+        sharedPref = context?.getSharedPreferences(SETTINGS_NAME, PRIVATE_MODE)
         //load icon slider
         loadSlider()
         setupClient()
         setupEvents()
+
+        // Load the last saved station
+        stationIconSlider.currentItem = sharedPref?.getInt(LAST_STATION,0)!!
     }
 
     // Set up the media client that handles messages from the music service
     private fun setupClient() {
-
 
 
 
@@ -124,22 +127,29 @@ class HomeFragment : Fragment() {
             }.apply { addControllerCallback(musicControllerCallback) }
         }
 
-    var handleSliderListenerDisable:Boolean = false
+
 
     // Update UI on when music changes
     private fun showMusicInfoWhenMetadataChanged(metadata: MediaMetadataCompat?) {
+
+
         metadata?.apply {
-            handleSliderListenerDisable = true //disable the slider callback
 
             //for some reason if we don not have this check, the nextButton is disabled
             if(hasChannelsChanged||isShuffle){
                 //updating the current item like this still calls the slider listener.
                 //if we dont disable it via handleSliderListenerDisable then the slider will cycle forever
+                handleSliderListenerDisable = true //disable the slider callback
+                hasChannelsChanged = false
                 stationIconSlider.currentItem = MusicLibrary.getCurrStation()
             }
             //enable the slider listener
             handleSliderListenerDisable = false
-            hasChannelsChanged = false
+
+            //save the new station into the cache
+            val editor = sharedPref?.edit()
+            editor?.putInt(LAST_STATION, MusicLibrary.getCurrStation())
+            editor?.apply()
 
             musicTitleTextView.text = getString(MediaMetadataCompat.METADATA_KEY_TITLE)
             musicArtistTextView.text = getString(MediaMetadataCompat.METADATA_KEY_ARTIST)
@@ -327,7 +337,6 @@ class HomeFragment : Fragment() {
     fun onWindowFocusChange(){
         showPlayStateChanged(musicBrowserHelper.mediaController?.playbackState)
 
-        //stationIconSlider.currentItem = MusicLibrary.getCurrStation()
         loadPlaystateImage(isPlaying)
     }
 
@@ -346,13 +355,16 @@ class HomeFragment : Fragment() {
         stationIconSlider.adapter = context?.let { SliderAdapter(it, stationIconList,activity) }
 
 
+
         stationIconSlider.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {}
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
             override fun onPageSelected(position: Int) {
+
+
                 // IF this is enabled...
                 if(!handleSliderListenerDisable){
-                    var stationConversionTemp = (position - 4999977)
+                    var stationConversionTemp = (position - 4999995)
                     when {
                         stationConversionTemp < 0 -> {
                             val temp = MusicLibrary.getNumStations()

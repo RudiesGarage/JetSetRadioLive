@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.jetsetradio.live.data.MusicLibrary
 import com.jetsetradio.live.ui.ChatFragment
 import com.jetsetradio.live.ui.HomeFragment
 import com.jetsetradio.live.ui.SettingsFragment
@@ -31,6 +32,7 @@ class MainActivity : AppCompatActivity(), StationSelectFragment.OnHeadlineSelect
     private val BUMPS = "Bumps"
     private val USERNAME = "CHAT_USERNAME"
     private val CHAT_NOTIFICATIONS = "Chat_Notifications"
+    private val LAST_STATION = "LastStation"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -193,27 +195,37 @@ class MainActivity : AppCompatActivity(), StationSelectFragment.OnHeadlineSelect
             val name = "Rudie_" + Random.nextInt(10,300)
             editor.putString(USERNAME, name)
             editor.apply()
-            Log.d("SETTINGS_CHAT_USERNAME", name)
+            Log.d("USERNAME", sharedPref.getString(USERNAME,"RUDIE_DEFAULT"))
         } else {
-            Log.d("SETTINGS_CHAT_USERNAME", sharedPref.getString(USERNAME,"RUDIE_DEFAULT"))
+            Log.d("USERNAME", sharedPref.getString(USERNAME,"RUDIE_DEFAULT"))
         }
         //Bumps
         if (!sharedPref.contains(BUMPS)) {
             val editor = sharedPref.edit()
             editor.putBoolean(BUMPS, true)
             editor.apply()
-            Log.d("SETTINGS_BUMPS", sharedPref.getBoolean(BUMPS,true).toString())
+            Log.d("BUMPS", sharedPref.getBoolean(BUMPS,true).toString())
         } else {
-            Log.d("SETTINGS_BUMPS", sharedPref.getBoolean(BUMPS,true).toString())
+            Log.d("BUMPS", sharedPref.getBoolean(BUMPS,true).toString())
         }
         //Chat Notifications
         if (!sharedPref.contains(CHAT_NOTIFICATIONS)) {
             val editor = sharedPref.edit()
             editor.putBoolean(CHAT_NOTIFICATIONS, true)
             editor.apply()
-            Log.d("SETTINGS_CHAT_NOTIF", sharedPref.getBoolean(CHAT_NOTIFICATIONS,true).toString())
+            Log.d("CHAT_NOTIFICATIONS", sharedPref.getBoolean(CHAT_NOTIFICATIONS,true).toString())
         } else {
-            Log.d("SETTINGS_CHAT_NOTIF", sharedPref.getBoolean(CHAT_NOTIFICATIONS,true).toString())
+            Log.d("CHAT_NOTIFICATIONS", sharedPref.getBoolean(CHAT_NOTIFICATIONS,true).toString())
+        }
+        //Set Last station
+        if (!sharedPref.contains(LAST_STATION)) {
+            val editor = sharedPref.edit()
+            editor.putInt(LAST_STATION, 0)
+            editor.apply()
+            Log.d("LAST_STATION", sharedPref.getInt(LAST_STATION,0).toString())
+        } else {
+            MusicLibrary.setCurrStation(sharedPref.getInt(LAST_STATION,0))
+            Log.d("LAST_STATION", sharedPref.getInt(LAST_STATION,0).toString())
         }
     }
 

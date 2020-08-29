@@ -14,6 +14,7 @@ import org.jsoup.select.Elements
 import org.xml.sax.Attributes
 import org.xml.sax.SAXException
 import org.xml.sax.helpers.DefaultHandler
+import kotlin.math.log
 
 // this class does all heavy lifting on parsing the xml requests from jsrl
 class XmlHandler() : DefaultHandler() {
@@ -52,11 +53,13 @@ class XmlHandler() : DefaultHandler() {
         if (lName.equals("message")) {
             item = aMessage()
         }
+
     }
 
     @Throws(SAXException::class)
     override fun endElement(uri: String?, localName: String?, qName: String?) {
         currentElement = false;
+
         /** set value */
         // this is a check for curl injections in the xml file
         // ie if you go to /save.php with no vars, then the username will not exist

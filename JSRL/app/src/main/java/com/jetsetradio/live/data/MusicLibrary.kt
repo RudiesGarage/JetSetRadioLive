@@ -316,6 +316,9 @@ object MusicLibrary {
         return musicMetadata[currStation]?.size
     }
 
-
+    fun setCurrStation(id: Int){
+        currStation = id
+        shuffleStation = id
+    }
 
 }

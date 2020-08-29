@@ -33,6 +33,7 @@ class StationSelectFragment : Fragment() {
             val imageModel = ImageModel()
             imageModel.name = icons[0].toString()
             imageModel.image_drawable = icons[1] as Int
+            imageModel.color = icons[2].toString()
             list.add(imageModel)
         }
         return list

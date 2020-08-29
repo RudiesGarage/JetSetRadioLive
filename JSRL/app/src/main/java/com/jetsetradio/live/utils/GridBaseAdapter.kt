@@ -2,12 +2,16 @@ package com.jetsetradio.live.utils
 
 import android.content.Context
 import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
+import com.google.android.material.card.MaterialCardView
 import com.jetsetradio.live.R
 import com.jetsetradio.live.data.ImageModel
 import java.util.*
@@ -18,6 +22,7 @@ class GridBaseAdapter(private val ctx: Context?, private val cardViewHolderArray
     inner class CardViewHolder {
         var icon: ImageView? = null
         var name: TextView? = null
+        var card: MaterialCardView? = null
     }
 
     override fun getView(position: Int, tempView: View?, parent: ViewGroup?): View? {
@@ -31,6 +36,7 @@ class GridBaseAdapter(private val ctx: Context?, private val cardViewHolderArray
             holder = CardViewHolder()
             holder.name = convertView?.findViewById(R.id.StationName)
             holder.icon = convertView?.findViewById(R.id.StationQuickIcon)
+            holder.card = convertView?.findViewById(R.id.card_view)
             convertView.tag = holder
         }
         else {
@@ -40,13 +46,25 @@ class GridBaseAdapter(private val ctx: Context?, private val cardViewHolderArray
             holder = convertView.tag as CardViewHolder
         }
         if (ctx != null) {
-            holder.icon?.setImageBitmap(BitmapFactory.decodeResource(ctx.resources, cardViewHolderArrayList[position].image_drawable))
+            //load the station icon into the card view
+            holder.icon?.let { Glide.with(ctx).load(cardViewHolderArrayList[position].image_drawable).into(it) }
         }
         holder.name?.text = cardViewHolderArrayList[position].name
-
+        holder.card?.apply { // border color
+            // border color
+            strokeColor = Color.parseColor(cardViewHolderArrayList[position].color)
+            // border width in dp
+            strokeWidth = 4.toDp(context)
+            // card corner radius
+            radius = 12.toDp(context).toFloat()
+        }
         return convertView
     }
 
+    // extension method to convert pixels to dp
+    private fun Int.toDp(context: Context):Int = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,this.toFloat(),context.resources.displayMetrics
+    ).toInt()
 
     override fun getItem(position: Int): ImageModel {
         return cardViewHolderArrayList[position]

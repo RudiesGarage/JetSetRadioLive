@@ -141,7 +141,10 @@ class ChatFragment : Fragment() , ChatAdapter.ItemClickListener{
             Log.e("","Send button clicked")
             postRequest()
         }
-
+        sendMessage.setOnClickListener {
+            Log.e("","message input text clicked")
+            adapter?.itemCount?.minus(1)?.let { recyclerView.scrollToPosition(it) }
+        }
         adapter?.itemCount?.minus(1)?.let { recyclerView.scrollToPosition(it) }
     }
 
