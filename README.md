@@ -21,8 +21,8 @@ Follow these [instructions](https://www.wikihow.tech/Install-APK-Files-on-Androi
 
 ### Screenshots
 
-<img src="/schreenshots/musicplayer_screenshot.jpg" alt="Music player"  height="300" width="150"/>
-<img src="/schreenshots/chat_screenshot.jpg" alt="Chat"  height="300" width="150"/>
+<img src="/screenshots/musicplayer_screenshot.jpg" alt="Music player"  height="300" width="150"/>
+<img src="/screenshots/chat_screenshot.jpg" alt="Chat"  height="300" width="150"/>
 
 
 ### Stations
@@ -46,14 +46,17 @@ Follow these [instructions](https://www.wikihow.tech/Install-APK-Files-on-Androi
   * Toe Jam & Earl - The OST from the game Toe Jam & Earl
   * Crazy Taxi - The OST from the game Crazy Taxi
   * End of Days - Songs that breath the end of the world.
-  * Summer - Chill Summer tunes. This station is only available from May to August
-  * Halloween - Spoopy sounds. This station is only available in September and October
-  * Christmas - Hip-hop holiday tunes. This station is only available in November, December, and January.
   * King for Another Day - All the songs featured in the King for another Day tournament and livestream by the [SilvaGunner](https://www.youtube.com/channel/UC9ecwl3FTG66jIKA9JRDtmg) team
   * Future Generation - JSRF tribute album by [Sashko Naganuma](https://soundcloud.com/highraiser/sets/mfjsrfg)
   * JetMashRadio - Various Mashups of JSR Tracks!
   * DJChidow - JSR remixes by [DJ Chidow](https://www.youtube.com/channel/UCOo9h1giPjMizVrgDuLAV4w)
   * Ganjah - Regge beats to chill, relax & reflex
+
+#### Seasonal Stations 
+  * Summer - Chill Summer tunes. This station is only available from May to August
+  * Halloween - Spoopy sounds. This station is only available in September and October
+  * Christmas - Hip-hop holiday tunes. This station is only available in November, December, and January.
+  
 
 
 ### Known Bugs
