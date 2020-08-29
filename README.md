@@ -11,7 +11,7 @@ You are able to download the most current version [here](https://github.com/Mcdo
 Android Phone (min. API 21)
 
 
-### Installing
+### How to Install
 
 On your Android Phone:
 
@@ -21,9 +21,8 @@ Follow these [instructions](https://www.wikihow.tech/Install-APK-Files-on-Androi
 
 ### Screenshots
 
-<img src="/screenshot.jpg" alt="screenshot"  height="300" width="150"/>
-
-
+<img src="/schreenshots/musicplayer_screenshot.jpg" alt="Music player"  height="300" width="150"/>
+<img src="/schreenshots/chat_screenshot.jpg" alt="Chat"  height="300" width="150"/>
 
 
 ### Stations
@@ -50,7 +49,7 @@ Follow these [instructions](https://www.wikihow.tech/Install-APK-Files-on-Androi
   * Summer - Chill Summer tunes. This station is only available from May to August
   * Halloween - Spoopy sounds. This station is only available in September and October
   * Christmas - Hip-hop holiday tunes. This station is only available in November, December, and January.
-  * King for Another Day - All the songs featured in the King for another Day tournament and livestream by the SilvaGunner team
+  * King for Another Day - All the songs featured in the King for another Day tournament and livestream by the [SilvaGunner](https://www.youtube.com/channel/UC9ecwl3FTG66jIKA9JRDtmg) team
   * Future Generation - JSRF tribute album by [Sashko Naganuma](https://soundcloud.com/highraiser/sets/mfjsrfg)
   * JetMashRadio - Various Mashups of JSR Tracks!
   * DJChidow - JSR remixes by [DJ Chidow](https://www.youtube.com/channel/UCOo9h1giPjMizVrgDuLAV4w)
@@ -59,22 +58,22 @@ Follow these [instructions](https://www.wikihow.tech/Install-APK-Files-on-Androi
 
 ### Known Bugs
   * Audiofocus may break on phones below version O
+  * Station Select Slider will sometimes not respond (library bug?)
+  * Gifs will occasionally stop playing
+  * Current playing song notification will not update after phone has been asleep for a while
 
 
 ### Upcoming Features
-  * JSRL Chat Connectivity
-  * Station Quick Change
+  * JSRL Chat Notifications
 
 
 ## License
-
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
 
 ## Acknowledgments
-
 * SEGA - Creators and Owners of Jet Set Radio
-* Hideki Naganuma - Composer, DJ, and Remixer or Jet Set Radio
-* DJ Professor K - Creator of [JetSetRadioLive](https://jetsetradio.live)
+* [Hideki Naganuma](https://twitter.com/Hideki_Naganuma)  - Composer, DJ, and Remixer or Jet Set Radio
+* [DJ Professor K](https://twitter.com/jetsetradiolive) - Creator of [JetSetRadioLive](https://jetsetradio.live)
 * Funk - The Creator of the OG JetSetRadioLive APP
 * The JetSetRadio Community
