@@ -10,17 +10,14 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import android.view.*
 import android.widget.Toast
-import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
-import com.google.android.material.snackbar.Snackbar
 import com.jetsetradio.live.R
+import com.jetsetradio.live.channelSelect.SliderAdapter
 import com.jetsetradio.live.client.MusicBrowserHelper
 import com.jetsetradio.live.data.MusicLibrary
 import com.jetsetradio.live.service.*
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlin.random.Random
 
 
 // this is the home fragment that has the main radio functionality
@@ -30,13 +27,11 @@ class HomeFragment : Fragment() {
     private lateinit var musicBrowserHelper: MusicBrowserHelper<MusicService>
     private var mLastClickTime: Long = 0
     private var hasChannelsChanged = false
-    private var PRIVATE_MODE = 0
+    private val PRIVATE_MODE = 0
     private val SETTINGS_NAME = "JSR SETTINGS"
     private var sharedPref: SharedPreferences? = null
     private val LAST_STATION = "LastStation"
     var handleSliderListenerDisable:Boolean = false
-
-
 
 
     // When fragment is loaded
@@ -66,8 +61,6 @@ class HomeFragment : Fragment() {
 
     // Set up the media client that handles messages from the music service
     private fun setupClient() {
-
-
 
         // create a musicControllerCallback  for the musicBrowserHelper
         val musicControllerCallback = object : MediaControllerCompat.Callback() {
@@ -99,24 +92,13 @@ class HomeFragment : Fragment() {
                         musicTitleTextView.text =  mediaController.metadata.description.title
                         musicArtistTextView.text = mediaController.metadata.description.subtitle
                     }
-
-
-
-//                    musicSeekBar.setMediaController(mediaController)
-//                    this.setListener(
-//                            MediaPlayer.OnCompletionListener {
-//                        musicBrowserHelper.mediaController?.transportControls?.skipToNext()
-//                    })
                 }
 
                 override fun onDisconnected() {}
 
                 override fun onChildrenLoaded(parentId: String, children: MutableList<MediaBrowserCompat.MediaItem>) {
                     mediaController?.apply {
-                        //remove
-//                        if (!this.queue.isNullOrEmpty()){
-//                            this.queue.forEach{removeQueueItem(it.description)}
-//                        }
+
                         if(this.queue.isNullOrEmpty()){
                             children.forEach {
                                 addQueueItem(it.description) }
@@ -131,8 +113,6 @@ class HomeFragment : Fragment() {
 
     // Update UI on when music changes
     private fun showMusicInfoWhenMetadataChanged(metadata: MediaMetadataCompat?) {
-
-
         metadata?.apply {
 
             //for some reason if we don not have this check, the nextButton is disabled
@@ -142,24 +122,26 @@ class HomeFragment : Fragment() {
                 handleSliderListenerDisable = true //disable the slider callback
                 hasChannelsChanged = false
                 stationIconSlider.currentItem = MusicLibrary.getCurrStation()
+
+                //save the new station into the cache
+                val editor = sharedPref?.edit()
+                editor?.putInt(LAST_STATION, MusicLibrary.getCurrStation())
+                editor?.apply()
+
             }
+
             //enable the slider listener
             handleSliderListenerDisable = false
 
-            //save the new station into the cache
-            val editor = sharedPref?.edit()
-            editor?.putInt(LAST_STATION, MusicLibrary.getCurrStation())
-            editor?.apply()
+
 
             musicTitleTextView.text = getString(MediaMetadataCompat.METADATA_KEY_TITLE)
             musicArtistTextView.text = getString(MediaMetadataCompat.METADATA_KEY_ARTIST)
-//            musicDurationTextView.text =
-//                getLong(MediaMetadataCompat.METADATA_KEY_DURATION).toTimeString("mm:ss")
 
             context?.apply {
                 // set station bg
                 if(getString(MediaMetadataCompat.METADATA_KEY_GENRE) != "bump"){
-                    stationBackground.setImageBitmap(MusicLibrary.getStationBackgroundBitmap( this, getString(MediaMetadataCompat.METADATA_KEY_GENRE).toInt() ))
+                  stationBackground.setImageBitmap(MusicLibrary.getStationBackgroundBitmap( this, getString(MediaMetadataCompat.METADATA_KEY_GENRE).toInt() ))
                 }
             }
         }
@@ -172,18 +154,15 @@ class HomeFragment : Fragment() {
                 PlaybackStateCompat.STATE_PLAYING -> {
                     isPlaying = true
                     loadPlaystateImage(isPlaying)
-//                    playPauseImageView.isPressed = isPlaying
                 }
                 PlaybackStateCompat.STATE_PAUSED -> {
                     isPlaying = false
                     loadPlaystateImage(isPlaying)
-//                    playPauseImageView.isPressed = isPlaying
                 }
                 PlaybackStateCompat.STATE_SKIPPING_TO_NEXT -> {
                     isPlaying = false
                     musicBrowserHelper.mediaController?.transportControls?.skipToNext()
                     loadPlaystateImage(isPlaying)
-//                    playPauseImageView.isPressed = isPlaying
                 }
 
                 PlaybackStateCompat.STATE_BUFFERING -> {
@@ -277,8 +256,6 @@ class HomeFragment : Fragment() {
                     this.queue.forEach { removeQueueItem(it.description) }
                 }
             }
-//
-
             musicBrowserHelper.mediaController?.transportControls?.sendCustomAction(CUSTOM_ACTION_STATION_NEXT,null)
 
         }
@@ -310,36 +287,32 @@ class HomeFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         musicBrowserHelper.onStart()
-//        musicBrowserHelper.mediaController?.transportControls?.play()
     }
 
     override fun onResume() {
         super.onResume()
         loadPlaystateImage(isPlaying)
-
-//        playPauseImageView.isPressed = isPlaying
     }
 
     override fun onPause() {
         super.onPause()
         loadPlaystateImage(isPlaying)
-//        playPauseImageView.isPressed = isPlaying
     }
 
     override fun onStop() {
         super.onStop()
-//        super.onStop()
         musicBrowserHelper.onStop()
-//        musicSeekBar.disconnectMediaController()
+
     }
 
 
     fun onWindowFocusChange(){
         showPlayStateChanged(musicBrowserHelper.mediaController?.playbackState)
-
+        //TODO update ui to current song
         loadPlaystateImage(isPlaying)
     }
 
+    // handle Station quick select
     fun onStationQuickSelect(position:Int){
         showPlayStateChanged(musicBrowserHelper.mediaController?.playbackState)
         stationIconSlider.currentItem = position
@@ -352,9 +325,7 @@ class HomeFragment : Fragment() {
         //Get all station Icons
         val stationIconList: ArrayList<ArrayList<Int>> = MusicLibrary.getStationData().getAllIcons()
 
-        stationIconSlider.adapter = context?.let { SliderAdapter(it, stationIconList,activity) }
-
-
+        stationIconSlider.adapter = context?.let { SliderAdapter(it, stationIconList, activity) }
 
         stationIconSlider.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {}
@@ -397,7 +368,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-
+    // Headphone listener response
     fun handleHeadphonePlugging(Microphone_Plugged_in:Boolean){
         if(Microphone_Plugged_in){
             if(isPlaying){
@@ -408,6 +379,7 @@ class HomeFragment : Fragment() {
             musicBrowserHelper.mediaController?.transportControls?.pause()
         }
     }
+
 }
 
 

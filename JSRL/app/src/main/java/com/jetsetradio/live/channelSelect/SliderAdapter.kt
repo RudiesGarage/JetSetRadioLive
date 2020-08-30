@@ -1,4 +1,4 @@
-package com.jetsetradio.live.service
+package com.jetsetradio.live.channelSelect
 
 import android.animation.ObjectAnimator
 import android.content.Context
@@ -8,13 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.viewpager.widget.PagerAdapter
 import com.jetsetradio.live.R
-import com.jetsetradio.live.ui.StationSelectFragment
 
 
 class SliderAdapter(context: Context, IconArray: ArrayList<ArrayList<Int>>, sourceActivity: FragmentActivity?) : PagerAdapter() {

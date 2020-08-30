@@ -1,4 +1,4 @@
-package com.jetsetradio.live.service
+package com.jetsetradio.live.chat
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.felipecsl.gifimageview.library.GifImageView
 import com.jetsetradio.live.R
-import com.jetsetradio.live.data.aMessage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -44,6 +43,7 @@ class ChatAdapter(val ctx:Context?,var data: ArrayList<aMessage>) : RecyclerView
     class ImageViewHolder(itemView: View) : ViewHolder(itemView) {
         var myImageView: ImageView = itemView.findViewById(R.id.messageIMG)
     }
+
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

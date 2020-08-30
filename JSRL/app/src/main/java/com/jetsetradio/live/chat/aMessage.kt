@@ -1,6 +1,6 @@
-package com.jetsetradio.live.data
+package com.jetsetradio.live.chat
 
-// todo probably have a child class for images maybe?
+// This class holds the information of a chat message
 class aMessage() {
     var username: String = ""
     var text: String = ""

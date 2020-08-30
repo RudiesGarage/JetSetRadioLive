@@ -1,4 +1,4 @@
-package com.jetsetradio.live.ui
+package com.jetsetradio.live.channelSelect
 
 
 import android.os.Bundle
@@ -10,9 +10,7 @@ import android.widget.AdapterView.OnItemClickListener
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.jetsetradio.live.R
-import com.jetsetradio.live.data.ImageModel
 import com.jetsetradio.live.data.MusicLibrary
-import com.jetsetradio.live.utils.GridBaseAdapter
 import kotlinx.android.synthetic.main.fragment_stationselect.*
 
 
@@ -42,7 +40,7 @@ class StationSelectFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        val adapter = GridBaseAdapter(context,  populateList())
+        val adapter = StationSelectAdapter(context, populateList())
         gv.adapter = adapter
         gv.onItemClickListener = OnItemClickListener { _, _, position, _ ->
             Toast.makeText(context, " Clicked Position: $position",

@@ -1,20 +1,12 @@
-package com.jetsetradio.live.service
+package com.jetsetradio.live.chat
 
-import android.R.attr
-import android.content.Context
-import android.graphics.Color
-import android.provider.DocumentsContract
 import android.util.Log
-import android.widget.TextView
-import com.jetsetradio.live.data.aMessage
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 import org.xml.sax.Attributes
 import org.xml.sax.SAXException
 import org.xml.sax.helpers.DefaultHandler
-import kotlin.math.log
 
 // this class does all heavy lifting on parsing the xml requests from jsrl
 class XmlHandler() : DefaultHandler() {

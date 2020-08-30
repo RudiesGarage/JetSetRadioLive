@@ -5,7 +5,7 @@ apply plugin: 'kotlin-android'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.example.simplemediaplayer2"
+        applicationId "com.jetsetradio.live"
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
@@ -54,8 +54,8 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.3.0-rc03'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0-rc03'
+    androidTestImplementation 'androidx.test:runner:1.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     //Coroutine for job and thread handling

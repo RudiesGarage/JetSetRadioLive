@@ -2,10 +2,7 @@ package com.jetsetradio.live.extensions
 
 import android.support.v4.media.session.PlaybackStateCompat
 
-/**
- * Created on 3/29/19 by Sang
- * Description:
- **/
+
 inline val PlaybackStateCompat.isPrepared: Boolean
     get() = (state == PlaybackStateCompat.STATE_BUFFERING) ||
             (state == PlaybackStateCompat.STATE_PLAYING) ||

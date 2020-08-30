@@ -9,10 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.jetsetradio.live.data.MusicLibrary
-import com.jetsetradio.live.ui.ChatFragment
+import com.jetsetradio.live.chat.ChatFragment
 import com.jetsetradio.live.ui.HomeFragment
 import com.jetsetradio.live.ui.SettingsFragment
-import com.jetsetradio.live.ui.StationSelectFragment
+import com.jetsetradio.live.channelSelect.StationSelectFragment
+import com.jetsetradio.live.service.HeadphoneBroadcastReceiver
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.random.Random
 
@@ -37,30 +38,15 @@ class MainActivity : AppCompatActivity(), StationSelectFragment.OnHeadlineSelect
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         setSupportActionBar(toolbar)
+
+        // Load the app settings
         loadSettings()
 
-        mReceiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context?, intent: Intent) {
-                val action = intent.action
-                val iii: Int
-                if (Intent.ACTION_HEADSET_PLUG == action) {
-                    iii = intent.getIntExtra("state", -1)
-                    if (Integer.valueOf(iii) == 0) {
-                        HomeFrag.handleHeadphonePlugging(false)
-                        Log.d("HEADPHONES", "HEADPHONES not plugged in")
-                    }
-                    if (Integer.valueOf(iii) == 1) {
-                        HomeFrag.handleHeadphonePlugging(true)
-                        Log.d("HEADPHONES", "HEADPHONES plugged in")
-                    }
-                }
-            }
-        }
-
+        // Load the headphone receiver and toolbar handling
         loadClients()
 
+        // Start the home/music fragment
         supportFragmentManager.beginTransaction()
                 .add(R.id.container, HomeFrag,"Home")
                 .commit()
@@ -68,6 +54,10 @@ class MainActivity : AppCompatActivity(), StationSelectFragment.OnHeadlineSelect
 
 
     private fun loadClients(){
+
+        mReceiver = HeadphoneBroadcastReceiver(HomeFrag)
+
+
         stationBanner.setOnClickListener{
             val nextFrag = StationSelectFragment()
             val fragmentManager: FragmentManager? = this.supportFragmentManager
@@ -86,7 +76,7 @@ class MainActivity : AppCompatActivity(), StationSelectFragment.OnHeadlineSelect
             }
         }
 
-        //TODO Settings Menu
+        // Load the settings menu
         settingsMenuButton.setOnClickListener{
             val nextFrag = SettingsFragment()
             val fragmentManager: FragmentManager? = this.supportFragmentManager
@@ -106,7 +96,7 @@ class MainActivity : AppCompatActivity(), StationSelectFragment.OnHeadlineSelect
             }
         }
 
-        //TODO Chat Menu
+        //Load the chat fragment
         chatMenuButton.setOnClickListener{
             val nextFrag = ChatFragment()
             val fragmentManager: FragmentManager? = this.supportFragmentManager
@@ -128,18 +118,12 @@ class MainActivity : AppCompatActivity(), StationSelectFragment.OnHeadlineSelect
 
     }
 
-
-    override fun onStart() {
-        super.onStart()
-    }
-
     override fun onResume() {
         super.onResume()
         if(wasPaused){
             setLockStatus(false)
         }
         registerReceiver(mReceiver, receiverFilter)
-//        nav_view.setNavigationItemSelectedListener(NavitemSelector)
 
     }
 
@@ -182,9 +166,6 @@ class MainActivity : AppCompatActivity(), StationSelectFragment.OnHeadlineSelect
         }
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-    }
 
     //Load Setting Preferences
     private fun loadSettings(){

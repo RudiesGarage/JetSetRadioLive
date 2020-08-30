@@ -1,5 +1,6 @@
 package com.jetsetradio.live.data
 
+// This class holds the information of a given station
 class Station(private val StationName: String,
               private val StationColor: String,
               private val StationIcon: Int,
@@ -10,7 +11,6 @@ class Station(private val StationName: String,
         return this.StationName
     }
 
-    // TODO remove this
     fun getStationColor():String{
         return this.StationColor
     }

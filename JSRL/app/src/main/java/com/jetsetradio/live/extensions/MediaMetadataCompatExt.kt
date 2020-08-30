@@ -3,10 +3,7 @@ package com.jetsetradio.live.extensions
 import android.graphics.Bitmap
 import android.support.v4.media.MediaMetadataCompat
 
-/**
- * Created on 3/22/19 by Sang
- * Description:
- **/
+//TODO update this to reflect Stations
 inline val MediaMetadataCompat.id: String
     get() = getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
 

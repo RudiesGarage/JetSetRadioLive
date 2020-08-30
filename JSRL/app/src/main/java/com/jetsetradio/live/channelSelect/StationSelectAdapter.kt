@@ -1,7 +1,6 @@
-package com.jetsetradio.live.utils
+package com.jetsetradio.live.channelSelect
 
 import android.content.Context
-import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -13,11 +12,10 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.google.android.material.card.MaterialCardView
 import com.jetsetradio.live.R
-import com.jetsetradio.live.data.ImageModel
 import java.util.*
 
 
-class GridBaseAdapter(private val ctx: Context?, private val cardViewHolderArrayList: ArrayList<ImageModel>) : BaseAdapter() {
+class StationSelectAdapter(private val ctx: Context?, private val cardViewHolderArrayList: ArrayList<ImageModel>) : BaseAdapter() {
 
     inner class CardViewHolder {
         var icon: ImageView? = null

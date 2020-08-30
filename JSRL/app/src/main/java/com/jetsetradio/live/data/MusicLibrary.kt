@@ -17,26 +17,25 @@ import kotlin.collections.HashMap
 import kotlin.random.Random
 import kotlin.random.Random.Default.nextInt
 
-
+// This object holds all all the music database information
+// Note: that the database is local and may take up alot of memory
 object MusicLibrary {
 
-    private var shuffleStation: Int = 0
     private var currStation:Int = 0
-
 
     // this holds a key int of a station to an array of metadata for each song
     private val musicMetadata = TreeMap<Int,Array<MediaMetadataCompat>>()
+
+    // this holds the data for bumps
     private var bumpsMetadata: Array<MediaMetadataCompat>? = null
-    // this val holds all station image data
+
+    // this holds all station data
     private val stationData = StationManager()
 
-    init {
-
-    }
-
+    // Load bumps
     fun getBumps(): MutableList<MediaBrowserCompat.MediaItem> {
         val result = mutableListOf<MediaBrowserCompat.MediaItem>()
-        var i =0;
+        var i =0
         bumpsMetadata?.forEach {
 
             val mediaItem = MediaBrowserCompat.MediaItem(
@@ -49,47 +48,46 @@ object MusicLibrary {
         return result
     }
 
+    // Load a station
+    fun getMediaItems(): MutableList<MediaBrowserCompat.MediaItem> {
+        val result = mutableListOf<MediaBrowserCompat.MediaItem>()
+        var i =0;
+        musicMetadata[currStation]?.forEach {
 
-    fun getStationData(): StationManager{
-        return this.stationData
+            val mediaItem = MediaBrowserCompat.MediaItem(
+                    it.description, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE
+            )
+            result.add(mediaItem)
+            i++
+
+        }
+        return result
     }
 
-    fun getCurrStation():Int{
-        return currStation
-    }
-
-    fun getCurrStationSize(): Int? {
-        return musicMetadata[currStation]?.size
-    }
-
+    // set next station
     fun nextStation(): MutableList<MediaBrowserCompat.MediaItem> {
         if(currStation == stationData.numStations()-1){
             currStation = 0
         }else{
             currStation++
         }
-        shuffleStation = currStation
 
         return this.getMediaItems()
     }
 
+    // set prev station
     fun prevStation(): MutableList<MediaBrowserCompat.MediaItem> {
         if(currStation == 0 ){
             currStation = stationData.numStations()-1
         }else{
             currStation--
         }
-        shuffleStation = currStation
         return this.getMediaItems()
     }
 
-    fun getNumStations():Int{
-        return stationData.numStations()
-    }
-
+    // get any station
     fun anyStation(stationID: Int): MutableList<MediaBrowserCompat.MediaItem>{
         currStation = stationID
-        shuffleStation = currStation
         return this.getMediaItems()
     }
 
@@ -119,7 +117,6 @@ object MusicLibrary {
         return this
     }
 
-    //TODO load bumps separately
     // load all music within station_reference_list.json
     fun loadJetSetRadio(context: Context){
         val jsonFileString = getJsonDataFromAsset(context, "station_reference_list.json")
@@ -159,16 +156,10 @@ object MusicLibrary {
     }
 
 
-    private fun getAlbumArtUri(resName: String): String =
-            "${ContentResolver.SCHEME_ANDROID_RESOURCE}://${BuildConfig.APPLICATION_ID}/drawable/$resName"
-
-
     fun getStationBackgroundBitmap(context: Context, stationID: Int): Bitmap? {
         val stationImage = stationData.getStation(stationID).getStationBackground()
         return BitmapFactory.decodeResource(context.resources, stationImage)
     }
-
-
 
 
     // a helper function to create metadata of a single song
@@ -237,20 +228,7 @@ object MusicLibrary {
     fun getRoot(): String = "Root"
 
 
-    fun getMediaItems(): MutableList<MediaBrowserCompat.MediaItem> {
-        val result = mutableListOf<MediaBrowserCompat.MediaItem>()
-        var i =0;
-            musicMetadata[currStation]?.forEach {
 
-                    val mediaItem = MediaBrowserCompat.MediaItem(
-                            it.description, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE
-                    )
-                    result.add(mediaItem)
-                    i++
-
-            }
-        return result
-    }
 
     fun getAllMediaItems(): MutableList<MediaBrowserCompat.MediaItem> {
         val result = mutableListOf<MediaBrowserCompat.MediaItem>()
@@ -300,12 +278,16 @@ object MusicLibrary {
         return getMusicMetadata(randsong)
     }
 
-
+    // get the next song
     fun getNextMusicFileName(it: String): MediaMetadataCompat? {
         if(it.toInt() == musicMetadata[currStation]?.size?.minus(1) ?: 0){
             return musicMetadata[currStation]?.get(0)
         }
         return musicMetadata[currStation]?.get(it.toInt()+1)
+    }
+
+    fun getNumStations():Int{
+        return stationData.numStations()
     }
 
     fun getGenre(): String? {
@@ -318,7 +300,17 @@ object MusicLibrary {
 
     fun setCurrStation(id: Int){
         currStation = id
-        shuffleStation = id
     }
 
+    fun getStationData(): StationManager{
+        return this.stationData
+    }
+
+    fun getCurrStation():Int{
+        return currStation
+    }
+
+    fun getCurrStationSize(): Int? {
+        return musicMetadata[currStation]?.size
+    }
 }

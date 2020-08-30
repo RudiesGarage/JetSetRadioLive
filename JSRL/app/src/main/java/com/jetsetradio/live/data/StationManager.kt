@@ -4,6 +4,7 @@ import com.jetsetradio.live.R
 import java.util.*
 import kotlin.collections.ArrayList
 
+// this class loads and handles all the station logic
 class StationManager(){
     private val stationList = ArrayList<Station>()
 
@@ -45,14 +46,17 @@ class StationManager(){
         }
     }
 
+    // add a station to the list
     private fun addStation(newStation: Station){
         stationList.add(newStation)
     }
 
+    // get a station from an id number
     fun getStation(id: Int): Station{
         return this.stationList[id]
     }
 
+    // Get a specific station from a string
     fun getStation(id: String): Station? {
         for(station: Station in this.stationList){
             if(station.getStationName() == id){
@@ -62,11 +66,12 @@ class StationManager(){
         return null
     }
 
-
+    // return the number of loaded stations
     fun numStations():Int{
         return this.stationList.size
     }
 
+    // load information needed for the slider
     fun getAllIcons():ArrayList<ArrayList<Int>>{
         val numStation = ArrayList<ArrayList<Int>>()
         for(station:Station in this.stationList){
