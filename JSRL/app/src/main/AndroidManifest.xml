@@ -14,19 +14,26 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/profk"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity"/>
-
+        <receiver
+            android:name=".MainActivity"
+            android:enabled="true"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="initialiseHeadsetService" />
+            </intent-filter>
+        </receiver>
         <service android:name=".service.MusicService">
             <intent-filter>
                 <action android:name="android.media.browse.MediaBrowserService" />

@@ -2,6 +2,7 @@ package com.jetsetradio.live.service
 
 import android.content.Intent
 import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaDescriptionCompat
@@ -14,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.media.MediaBrowserServiceCompat
 import com.jetsetradio.live.R
 import com.jetsetradio.live.data.MusicLibrary
+import com.jetsetradio.live.extensions.*
 import kotlin.random.Random
 import kotlin.random.Random.Default.nextInt
 
@@ -58,6 +60,30 @@ class MusicService : MediaBrowserServiceCompat() {
                 PlaybackStateCompat.STATE_SKIPPING_TO_NEXT -> moveNotificationToStartedState(this)
                 PlaybackStateCompat.STATE_PAUSED -> updateNotificationWhenStatePaused(this)
                 PlaybackStateCompat.STATE_STOPPED -> stopServiceWhenStateStopped()
+                PlaybackStateCompat.STATE_BUFFERING -> {
+                    TODO()
+                }
+                PlaybackStateCompat.STATE_CONNECTING -> {
+                    TODO()
+                }
+                PlaybackStateCompat.STATE_ERROR -> {
+                    TODO()
+                }
+                PlaybackStateCompat.STATE_FAST_FORWARDING -> {
+                    TODO()
+                }
+                PlaybackStateCompat.STATE_NONE -> {
+                    TODO()
+                }
+                PlaybackStateCompat.STATE_REWINDING -> {
+                    TODO()
+                }
+                PlaybackStateCompat.STATE_SKIPPING_TO_PREVIOUS -> {
+                    TODO()
+                }
+                PlaybackStateCompat.STATE_SKIPPING_TO_QUEUE_ITEM -> {
+                    TODO()
+                }
             }
         }
 
@@ -91,6 +117,7 @@ class MusicService : MediaBrowserServiceCompat() {
                 token = sessionToken ?: return,
                 description = playback.currentMetadata?.description ?: return
         )
+
         musicNotificationManager.notificationManager.notify(
                 MusicNotificationManager.NOTIFICATION_ID, notification
         )
@@ -105,7 +132,7 @@ class MusicService : MediaBrowserServiceCompat() {
 
 
     override fun onLoadChildren(parentId: String, result: Result<MutableList<MediaBrowserCompat.MediaItem>>) {
-        result.sendResult(MusicLibrary.getMediaItems())
+        result.sendResult(MusicLibrary.getBumps())
     }
 
     override fun onGetRoot(clientPackageName: String, clientUid: Int, rootHints: Bundle?): BrowserRoot? {
@@ -124,6 +151,7 @@ class MusicService : MediaBrowserServiceCompat() {
         override fun onAddQueueItem(description: MediaDescriptionCompat?) {
             super.onAddQueueItem(description)
             description?.apply {
+
                 val addedItem = MediaSessionCompat.QueueItem(this, this.hashCode().toLong())
                 playList.add(addedItem)
                 playedItemIndex = if (playedItemIndex == -1) {
@@ -133,7 +161,7 @@ class MusicService : MediaBrowserServiceCompat() {
                 }
                 musicSession.setQueue(playList)
             }
-            Log.d("MusicService_TAG", "music info: ${description?.title}")
+            Log.d("MusicService_ADD_SONG", "music info: ${description?.title}")
         }
 
         override fun onRemoveQueueItem(description: MediaDescriptionCompat?) {
@@ -156,8 +184,29 @@ class MusicService : MediaBrowserServiceCompat() {
             if (playedItemIndex < 0 || playList.isEmpty()) {
                 return
             }
+            else if(playedItemIndex >= playList.size){
+                playedItemIndex = 0
+            }
+            val chance = Random.nextInt(0,10)
 
-            prepareMusicMetadata = MusicLibrary.getMusicMetadata(playedItemIndex)
+            //If bumps are active then have a chance to play a bump
+            if(applicationContext.getSharedPreferences("JSR SETTINGS",0).getBoolean("Bumps",true) && chance == 0){
+                if(playedItemIndex >= playList.size){
+                    playedItemIndex = chance
+                }
+                prepareMusicMetadata = MediaMetadataCompat.Builder().apply {
+                    val musicDesc = playList[playedItemIndex].description
+                    this.id = musicDesc.mediaId!!
+                    this.MEDIA_URI = musicDesc.mediaUri.toString()
+                    this.title = musicDesc.title as String
+                    this.artist = musicDesc.subtitle as String
+                    this.genre = MusicLibrary.getGenre().toString()
+                }.build()
+            }
+            else{
+                prepareMusicMetadata = MusicLibrary.getMusicMetadata(playedItemIndex)
+            }
+
             musicSession.setMetadata(prepareMusicMetadata)
             if (musicSession.isActive.not()) {
                 musicSession.isActive = true
@@ -192,7 +241,9 @@ class MusicService : MediaBrowserServiceCompat() {
                 //when shuffle is active we only get the next song due to a bug in the slider
                 val action = CUSTOM_ACTION_STATION_NEXT
                 onCustomAction(action, null)
-            }else {
+            }
+
+            else {
                 playedItemIndex = if (playedItemIndex < MusicLibrary.getNumSongs()?.minus(1) ?: 0) {
                     playedItemIndex + 1
                 } else {
@@ -229,27 +280,25 @@ class MusicService : MediaBrowserServiceCompat() {
             when(action){
                 // Next Station
                 CUSTOM_ACTION_STATION_NEXT -> {
-
                     MusicLibrary.nextStation()
-
                     playedItemIndex == 0
-                    playList.clear()
-
+//                    playList.clear()
                     val temp = MusicLibrary.getMediaItems()
+
+
+//                    if(temp.size>=30){
+//                        for(i in 0 until 30){
+//                            onAddQueueItem(temp[i].description)
+//                        }
+//                    }
+//                    else{
+//                        for(i in 0 until temp.size){
+//                            onAddQueueItem(temp[i].description)
+//                        }
+//                    }
 
                     if(isShuffle){
                         playedItemIndex = nextInt(0,temp.size-1)
-                    }
-
-                    if(temp.size>=30){
-                        for(i in 0 until 30){
-                            onAddQueueItem(temp[i].description)
-                        }
-                    }
-                    else{
-                        for(i in 0 until temp.size){
-                            onAddQueueItem(temp[i].description)
-                        }
                     }
 
                     prepareMusicMetadata = null
@@ -263,27 +312,27 @@ class MusicService : MediaBrowserServiceCompat() {
 
                     //Clear the playlist
                     playedItemIndex == 0
-                    playList.clear()
+//                    playList.clear()
 
 
                     // fetch the previous station data
                     val temp = MusicLibrary.prevStation()
+
+//                    // if the station is too large only load 30 songs
+//                    if(temp.size>=30){
+//                        for(i in 0 until 30){
+//                            onAddQueueItem(temp[i].description)
+//                        }
+//                    }
+//                    // otherwise load all the songs
+//                    else{
+//                        for(i in 0 until temp.size){
+//                            onAddQueueItem(temp[i].description)
+//                        }
+//                    }
                     if(isShuffle){
                         playedItemIndex = nextInt(0,temp.size-1)
                     }
-                    // if the station is too large only load 30 songs
-                    if(temp.size>=30){
-                        for(i in 0 until 30){
-                            onAddQueueItem(temp[i].description)
-                        }
-                    }
-                    // otherwise load all the songs
-                    else{
-                        for(i in 0 until temp.size){
-                            onAddQueueItem(temp[i].description)
-                        }
-                    }
-
                     // clear the current song
                     prepareMusicMetadata = null
                     onPause()
@@ -296,7 +345,7 @@ class MusicService : MediaBrowserServiceCompat() {
                 CUSTOM_ACTION_STATION_SET ->{
                     //Clear the playlist
                     playedItemIndex == 0
-                    playList.clear()
+//                    playList.clear()
 
                     val station = extras?.getInt("STATION_POSITION")
 
@@ -305,24 +354,24 @@ class MusicService : MediaBrowserServiceCompat() {
 
                     // if the station is too large only load 30 songs
                     if (temp != null) {
-                        if (!this.playList.isNullOrEmpty()) {
-                            this.playList.forEach { onRemoveQueueItem(it.description) }
-                        }
+//                        if (!this.playList.isNullOrEmpty()) {
+//                            this.playList.forEach { onRemoveQueueItem(it.description) }
+//                        }
                         if(isShuffle){
                             playedItemIndex = nextInt(0,temp.size-1)
                         }
 
-                        if(temp.size>=30){
-                            for(i in 0 until 30){
-                                onAddQueueItem(temp[i].description)
-                            }
-                        }
-                        // otherwise load all the songs
-                        else{
-                            for(i in 0 until temp.size){
-                                onAddQueueItem(temp[i].description)
-                            }
-                        }
+//                        if(temp.size>=30){
+//                            for(i in 0 until 30){
+//                                onAddQueueItem(temp[i].description)
+//                            }
+//                        }
+//                        // otherwise load all the songs
+//                        else{
+//                            for(i in 0 until temp.size){
+//                                onAddQueueItem(temp[i].description)
+//                            }
+//                        }
                     }
 
                     // clear the current song
@@ -336,7 +385,6 @@ class MusicService : MediaBrowserServiceCompat() {
                 }
                 CUSTOM_ACTION_SHUFFLE -> {
                     isShuffle = !isShuffle
-
                 }
             }
 

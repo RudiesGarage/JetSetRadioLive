@@ -8,15 +8,19 @@ import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Build
 import android.os.SystemClock
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.jetsetradio.live.data.MusicLibrary
 import com.jetsetradio.live.extensions.MEDIA_URI
+import com.jetsetradio.live.extensions.id
 import java.io.IOException
+import java.net.URI
 
 /*
 Music Player Adapter
@@ -262,15 +266,16 @@ class MusicPlayerAdapter(
                 setDataSource(currentMetadata!!.MEDIA_URI)
                 isPreparing = true
                 prepareAsync()
-                Toast.makeText(applicationContext, "Loading Next Track...", Toast.LENGTH_SHORT).show()
+                Log.e("MusicPlayerAdapter", "Fetching Track: ${currentMetadata!!.description.title}")
+                Toast.makeText(applicationContext, "Fetching Track: ${currentMetadata!!.description.title}", Toast.LENGTH_SHORT).show()
 
             }catch (e: IOException) {
                 Toast.makeText(applicationContext, "Cannot load track. The Noise Tanks may be behind this!", Toast.LENGTH_SHORT).show();
+                Log.e("MusicPlayerAdapter", "ERROR Fetching Track")
                 e.printStackTrace();
             }
         }
     }
-
 
 
 
@@ -280,7 +285,7 @@ class MusicPlayerAdapter(
                 setOnCompletionListener{
 
 
-                    val nextsong = currentMetadata?.description?.mediaId?.let { it1 -> MusicLibrary.getNextMusicFileName(it1) }
+                    val nextsong = currentMetadata?.id?.let { it1 -> MusicLibrary.getNextMusicFileName(it1) }
                     if (nextsong != null) {
                         playFromMedia(nextsong)
                     }

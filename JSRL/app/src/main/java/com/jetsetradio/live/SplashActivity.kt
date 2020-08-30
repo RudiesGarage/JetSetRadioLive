@@ -34,7 +34,7 @@ class SplashActivity : AppCompatActivity() {
         //Navigate with delay
         mDelayHandler!!.postDelayed(mRunnable, SPLASH_DELAY)
 
-        //load music library in background
+        //load music library // todo this in new thread?
         MusicLibrary.loadJetSetRadio(applicationContext)
     }
 

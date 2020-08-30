@@ -1,6 +1,5 @@
 package com.jetsetradio.live.service
 
-import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Notification
 import android.app.NotificationChannel
@@ -15,7 +14,6 @@ import androidx.core.app.NotificationCompat
 import androidx.media.app.NotificationCompat.MediaStyle
 import androidx.media.session.MediaButtonReceiver
 import com.jetsetradio.live.R
-import com.jetsetradio.live.data.MusicLibrary
 import com.jetsetradio.live.extensions.*
 
 class MusicNotificationManager(private val service: MusicService) {
@@ -60,7 +58,9 @@ class MusicNotificationManager(private val service: MusicService) {
         }
         val mediaStyle = MediaStyle().setMediaSession(token)
                 .setShowActionsInCompactView(0, 1, 2)
-                .setShowCancelButton(true) // For android 7 and earlier
+                .setShowCancelButton(true)
+                // For android 7 and earlier
+
         val deletePendingIntent = MediaButtonReceiver.buildMediaButtonPendingIntent(
                 service, PlaybackStateCompat.ACTION_STOP
         )
@@ -69,9 +69,12 @@ class MusicNotificationManager(private val service: MusicService) {
                 .setContentTitle(description.title)
                 .setContentText(description.subtitle)
                 .setDeleteIntent(deletePendingIntent)
-                .setLargeIcon(MusicLibrary.getStationBitmaps(service, description.mediaId ?: "")?.get(0))
+//                .setLargeIcon(MusicLibrary.getStationBitmaps(service, description.mediaId ?: "")?.get(0))
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setStyle(mediaStyle)
+                .setVibrate(null)
+
+
 
         if (state.isShuffleEnabled) {
             builder.addAction(shuffleAction)
@@ -91,20 +94,20 @@ class MusicNotificationManager(private val service: MusicService) {
     private fun createNotificationChannel() {
         if (notificationManager.getNotificationChannel(CHANNEL_ID) == null) {
             val channel = NotificationChannel(
-                    CHANNEL_ID, "MediaSession", NotificationManager.IMPORTANCE_LOW
+                    CHANNEL_ID, "MediaSession", NotificationManager.IMPORTANCE_NONE
             ).apply {
-                description = "MediaPlayer with MediaSession demo"
-                enableLights(true)
-                lightColor = Color.RED
+                description = "JetSetRADIOOOOOOOOOOO"
+                lightColor = Color.GREEN
                 lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+                enableVibration(false)
+                setShowBadge(false)
             }
             notificationManager.createNotificationChannel(channel)
         }
     }
 
     companion object {
-
-        private const val CHANNEL_ID = "com.sournary.notification.MUSIC_CHANNEL"
+        private const val CHANNEL_ID = "com.jetsetradio.live.notification.MUSIC_CHANNEL"
         const val NOTIFICATION_ID = 111
     }
 }
