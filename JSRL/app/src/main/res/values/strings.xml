@@ -5,10 +5,6 @@
     <string name="play_action_label">Play</string>
     <string name="pause_action_label">Pause</string>
     <string name="next_action_label">Next</string>
-    <string name="previous_action_label">Previous</string>
     <string name="shuffle_action_label">Shuffle</string>
     <!-- Menu -->
-    <string name="action_menu_label">Menu</string>
-    <string name="Open_Drawer">Menu Opened</string>
-    <string name="Close_Drawer">Menu Closed</string>
 </resources>

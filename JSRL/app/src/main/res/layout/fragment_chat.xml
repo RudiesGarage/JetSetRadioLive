@@ -5,45 +5,69 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/parentcontainer"
+    android:visibility="visible"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:clickable="true"
     android:focusable="true">
 
-
-
-
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/sendMessage"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:id="@+id/chatMessageContainer"
+        android:layout_width="0dp"
+        android:layout_height="61dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/sendButton"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Enter Message"
-        android:layout_margin="8dp"
-        android:layout_width="0dp" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/sendButton"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/dp_50"
-        android:layout_margin="8dp"
-        android:layout_marginEnd="323dp"
-        android:text="Send"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/sendMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Enter Message"
+            android:imeOptions="actionDone"
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toBottomOf="@+id/parentcontainer"
+            app:layout_constraintEnd_toStartOf="@+id/colorPicker"
+            app:layout_constraintStart_toStartOf="@+id/parentcontainer" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/colorPicker"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="@dimen/dp_16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/sendButton"
+            app:layout_constraintStart_toEndOf="@+id/sendMessage" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/sendButton"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_50"
+            android:layout_margin="8dp"
+            android:text="Send"
+            app:layout_constraintBottom_toBottomOf="@+id/parentcontainer"
+            app:layout_constraintEnd_toEndOf="@+id/parentcontainer"
+            app:layout_constraintStart_toEndOf="@+id/colorPicker" />
+
+    </LinearLayout>
+
+
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/dp_16"
-        app:layout_constraintBottom_toTopOf="@+id/sendMessage"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/chatMessageContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
+
+    <include layout="@layout/fragment_colorpicker" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

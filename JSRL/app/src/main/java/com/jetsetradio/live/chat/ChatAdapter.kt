@@ -2,6 +2,8 @@ package com.jetsetradio.live.chat
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.text.Html
 import android.view.LayoutInflater
@@ -16,6 +18,7 @@ import com.jetsetradio.live.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
@@ -78,7 +81,7 @@ class ChatAdapter(val ctx:Context?,var data: ArrayList<aMessage>) : RecyclerView
         return mData.size
     }
 
-    @SuppressLint("ResourceAsColor")
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val message = mData[position]
 
@@ -90,58 +93,82 @@ class ChatAdapter(val ctx:Context?,var data: ArrayList<aMessage>) : RecyclerView
         }
 
         // If gif message
-        if(holder is GifViewHolder){
-            // Todo this should be in separate thread
-            CoroutineScope(Dispatchers.IO).launch{
-                val url = URL(message.image)
-                val baos = ByteArrayOutputStream()
-                var `is`: InputStream? = null
-                try {
-                    `is` = url.openStream()
-                    val byteChunk = ByteArray(4096) // Or whatever size you want to read in at a time.
-                    var n: Int
-                    while (`is`.read(byteChunk).also { n = it } > 0) {
-                        baos.write(byteChunk, 0, n)
-                    }
-                } catch (e: IOException) {
-                    System.err.printf("Failed while reading bytes from %s: %s", url.toExternalForm(), e.message)
-                    e.printStackTrace()
-                    // Perform any other exception handling that's appropriate.
-                } finally {
-                    `is`?.close()
+        when (holder) {
+            is GifViewHolder -> {
+                CoroutineScope(Dispatchers.IO).launch {
 
-                    //Android studio says this will not be null but async might says otherwise
-                    if(baos!= null){
-                        holder.myGifView.setBytes(baos.toByteArray())
-                        holder.myGifView.startAnimation()
+                    holder.myGifView.setBytes(getCrimes(message,holder) as ByteArray?)
+                    holder.myGifView.startAnimation()
+                    holder.myGifView.setOnLongClickListener {
+                        val openURL = Intent(Intent.ACTION_VIEW)
+                        openURL.data = Uri.parse(message.image)
+                        ctx?.startActivity(openURL)
+                        return@setOnLongClickListener true
                     }
                 }
             }
-            holder.myGifView.setOnClickListener({
-                //TODO set copy image
-            })
-        }
-        // If text message
-        else if(holder is MessageViewHolder){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                holder.textView.setText(Html.fromHtml(message.text,  Html.FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE)
-            } else {
-                holder.textView.setText(Html.fromHtml(message.text), TextView.BufferType.SPANNABLE)
+            // If text message
+            is MessageViewHolder -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    holder.textView.setText(Html.fromHtml(message.text,  Html.FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE)
+                } else {
+                    holder.textView.setText(Html.fromHtml(message.text), TextView.BufferType.SPANNABLE)
+                }
+                holder.itemView.setOnLongClickListener {
+                    return@setOnLongClickListener true
+                    //TODO set copy message
+                }
             }
-            holder.itemView.setOnClickListener({
-                //TODO set copy message
-            })
-        }
-        // if static image
-        else if (holder is ImageViewHolder){
-            if (ctx != null) {
-                Glide.with(ctx).asBitmap().load(message.image).into(holder.myImageView)
+            // if static image
+            is ImageViewHolder -> {
+                if (ctx != null) {
+                    Glide.with(ctx).asBitmap().load(message.image).into(holder.myImageView)
+                }
+                holder.myImageView.setOnLongClickListener {
+                    val openURL = Intent(Intent.ACTION_VIEW)
+                    openURL.data = Uri.parse(message.image)
+                    ctx?.startActivity(openURL)
+                    return@setOnLongClickListener true
+                }
             }
-            holder.myImageView.setOnClickListener({
-                //TODO set copy image
-            })
         }
     }
+
+    suspend fun getCrimes(message: aMessage,holder:GifViewHolder): Any? = withContext(Dispatchers.IO) {
+        var url = URL(message.image)
+        val baos = ByteArrayOutputStream()
+        var `is`: InputStream? = null
+        try {
+            `is` = url.openStream()
+            val byteChunk = ByteArray(4096) // Or whatever size you want to read in at a time.
+            var n: Int
+            while (`is`.read(byteChunk).also { n = it } > 0) {
+                baos.write(byteChunk, 0, n)
+            }
+        } catch (e: IOException) {
+            System.err.printf("Failed while reading bytes from %s: %s \n Loading 404 Gif", url.toExternalForm(), e.message)
+            message.image = "https://jetsetradio.live/media/404.gif"
+            url = URL( message.image)
+            try {
+                `is` = url.openStream()
+                val byteChunk = ByteArray(4096) // Or whatever size you want to read in at a time.
+                var n: Int
+                while (`is`.read(byteChunk).also { n = it } > 0) {
+                    baos.write(byteChunk, 0, n)
+                }
+            } catch (e: IOException) {
+                System.err.printf("Loading 404 Gif error", url.toExternalForm(), e.message)
+            }
+
+            // Perform any other exception handling that's appropriate.
+        } finally {
+            `is`?.close()
+            return@withContext baos.toByteArray()
+            //Android studio says this will not be null but async might says otherwise
+        }
+    }
+
+
 
     // convenience method for getting data at click position
     private fun getItem(id: Int): aMessage? {

@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity(), StationSelectFragment.OnHeadlineSelect
     private val USERNAME = "CHAT_USERNAME"
     private val CHAT_NOTIFICATIONS = "Chat_Notifications"
     private val LAST_STATION = "LastStation"
+    private val CHAT_COLOR = "CHAT_COLOR"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -197,6 +198,15 @@ class MainActivity : AppCompatActivity(), StationSelectFragment.OnHeadlineSelect
             Log.d("CHAT_NOTIFICATIONS", sharedPref.getBoolean(CHAT_NOTIFICATIONS,true).toString())
         } else {
             Log.d("CHAT_NOTIFICATIONS", sharedPref.getBoolean(CHAT_NOTIFICATIONS,true).toString())
+        }
+        //Chat Color
+        if (!sharedPref.contains(CHAT_COLOR)) {
+            val editor = sharedPref.edit()
+            editor.putString(CHAT_COLOR, "#FFFFFF")
+            editor.apply()
+            Log.d("CHAT_COLOR", sharedPref.getString(CHAT_COLOR,"#FFFFFF"))
+        } else {
+            Log.d("CHAT_COLOR", sharedPref.getString(CHAT_COLOR,"#FFFFFF"))
         }
         //Set Last station
         if (!sharedPref.contains(LAST_STATION)) {

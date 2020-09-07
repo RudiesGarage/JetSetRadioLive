@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-<!-- DO NOT HAVE THE BUTTON DISPLAY TIED TO PRESSES HAVE IT TIED TO MUSIC PLAYSTATE   -->
-    <item android:drawable="@drawable/playtrackbutton" android:state_pressed="false" />
-    <item android:drawable="@drawable/pausetrackbutton" />
-</selector>

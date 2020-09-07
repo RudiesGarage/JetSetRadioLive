@@ -8,4 +8,10 @@ class aMessage() {
     var timestamp: String = ""
     var image: String = ""
     var isGIF: Boolean = false
+
+    fun isEqual(msg:aMessage):Boolean{
+        if(this.timestamp == msg.timestamp) return true
+        return false
+    }
+
 }

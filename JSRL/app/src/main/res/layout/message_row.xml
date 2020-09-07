@@ -26,6 +26,7 @@
         android:autoLink="web"
         android:textColorLink="#ffffff"
         android:text="MESSAGE CONTEXT"
+        android:longClickable="true"
         android:layout_marginLeft="5dp"/>
 
 

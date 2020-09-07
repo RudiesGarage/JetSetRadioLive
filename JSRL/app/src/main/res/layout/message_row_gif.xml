@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:scaleType="fitXY"
+        android:longClickable="true"
         android:id="@+id/messageGIF"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

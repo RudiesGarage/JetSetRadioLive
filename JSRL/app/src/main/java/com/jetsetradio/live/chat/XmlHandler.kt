@@ -1,12 +1,17 @@
 package com.jetsetradio.live.chat
 
 import android.util.Log
+import android.util.Patterns
+import android.webkit.URLUtil
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.select.Elements
 import org.xml.sax.Attributes
 import org.xml.sax.SAXException
 import org.xml.sax.helpers.DefaultHandler
+import java.net.MalformedURLException
+import java.net.URL
+
 
 // this class does all heavy lifting on parsing the xml requests from jsrl
 class XmlHandler() : DefaultHandler() {
@@ -66,8 +71,9 @@ class XmlHandler() : DefaultHandler() {
         }
     }
 
+    // Parse the XML
     private fun parseHTML(input:String):String{
-        //element is html
+        //element is tag
         if(input[0] == '<') {
             val doc: Document = Jsoup.parseBodyFragment(input).normalise()
             val fontEle: Elements? = doc.getElementsByTag("font")
@@ -84,9 +90,12 @@ class XmlHandler() : DefaultHandler() {
             if(ImgEle!=null){
                 if(!ImgEle.isEmpty()){
                     item?.image = ImgEle[0]?.attr("src").toString()
+
+                    // check if the image is a gif
                     if(item?.image?.contains("gif")!!){
                         item?.isGIF = true
                     }
+
                     return ImgEle[0].text()
                 }
             }
@@ -99,16 +108,14 @@ class XmlHandler() : DefaultHandler() {
                     val newline = "<font color=\'"
                     var t =input.replace(line,newline)
                     t = t.replace(";\'>","'>")
-
                     return t
                 }
             }
-
-
-
         }
         return input
     }
+
+
 
     companion object {
         private const val username = "username"

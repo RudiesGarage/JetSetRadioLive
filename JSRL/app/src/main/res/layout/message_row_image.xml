@@ -26,6 +26,7 @@
         android:id="@+id/messageIMG"
         android:autoLink="web"
         android:scaleType="fitXY"
+        android:longClickable="true"
         android:layout_marginLeft="5dp"/>
 
 
