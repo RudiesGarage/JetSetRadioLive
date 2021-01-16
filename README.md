@@ -1,4 +1,6 @@
 # JetSetRadioLive Android App
+## Currently dead due to the death of JSRL
+
 The Android App for [JetSetRadioLive](https://jetsetradio.live/) so even the cops can tune in when they're not eating donuts!
 
 
